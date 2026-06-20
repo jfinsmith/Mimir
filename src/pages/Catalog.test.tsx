@@ -34,6 +34,8 @@ describe('Catalog page', () => {
       screen.getByText(new RegExp(`${QUARTZ} of ${TOTAL} movements`)),
     ).toBeInTheDocument();
     expect(screen.getAllByText('515').length).toBeGreaterThan(0);
-    expect(screen.queryAllByText('NH35')).toHaveLength(0);
+    // No NH35 *card* (the diagram-key legend has an "NH35" example swatch, so
+    // scope to the card heading rather than any text match).
+    expect(screen.queryByRole('heading', { name: 'NH35' })).toBeNull();
   });
 });

@@ -135,6 +135,16 @@ export type FilterDimension =
   | 'countries'
   | 'handSizes';
 
+/**
+ * Normalized maker for the Brand facet — collapses verbose/variant brand strings
+ * ("Seiko (SII/TMI)", "Seiko (TMI)", "Seiko" → "Seiko"; "ETA (Unitas)" → "ETA")
+ * so picking a brand groups all of that maker's calibers together.
+ */
+export function makerOf(brand: string): string {
+  const base = brand.split('(')[0]?.trim() ?? '';
+  return base.length > 0 ? base : brand;
+}
+
 const PREDICATES: Record<
   FilterDimension,
   (m: Movement, s: FilterState) => boolean
@@ -172,7 +182,8 @@ const PREDICATES: Record<
     s.costTiers.length === 0 || s.costTiers.includes(m.costTier),
   availabilities: (m, s) =>
     s.availabilities.length === 0 || s.availabilities.includes(m.availability),
-  brands: (m, s) => s.brands.length === 0 || s.brands.includes(m.brand),
+  brands: (m, s) =>
+    s.brands.length === 0 || s.brands.includes(makerOf(m.brand)),
   countries: (m, s) =>
     s.countries.length === 0 ||
     (m.manufactureCountry != null &&

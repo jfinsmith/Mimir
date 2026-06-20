@@ -11,6 +11,7 @@ import {
 } from '@/types';
 import {
   facetCounts,
+  makerOf,
   type FilterDimension,
   type FilterState,
 } from '@/lib/filters';
@@ -206,7 +207,7 @@ export function FilterPanel({
       dateWindows: of('dateWindows', (m) => [m.dateWindowPosition ?? 'none']),
       costTiers: of('costTiers', (m) => [String(m.costTier)]),
       availabilities: of('availabilities', (m) => [m.availability]),
-      brands: of('brands', (m) => [m.brand]),
+      brands: of('brands', (m) => [makerOf(m.brand)]),
       countries: of('countries', (m) =>
         m.manufactureCountry ? [m.manufactureCountry] : [],
       ),
@@ -226,7 +227,7 @@ export function FilterPanel({
     );
     const tierSet = new Set(movements.map((m) => m.costTier));
     const availSet = new Set(movements.map((m) => m.availability));
-    const brandSet = new Set(movements.map((m) => m.brand));
+    const brandSet = new Set(movements.map((m) => makerOf(m.brand)));
     const countrySet = new Set(
       movements.flatMap((m) =>
         m.manufactureCountry ? [m.manufactureCountry] : [],
@@ -296,6 +297,18 @@ export function FilterPanel({
             value: String(t),
             label: <CostGlyphs tier={t} />,
             count: c(counts.costTiers, String(t)),
+          }))}
+        />
+      </Group>
+
+      <Group title="Brand" badge={filters.brands.length} open>
+        <CheckGroup
+          selected={filters.brands}
+          onToggle={(v) => patch({ brands: toggle(filters.brands, v) })}
+          options={present.brands.map((b) => ({
+            value: b,
+            label: b,
+            count: c(counts.brands, b),
           }))}
         />
       </Group>
@@ -425,18 +438,6 @@ export function FilterPanel({
             value: a,
             label: AVAILABILITY_LABEL[a],
             count: c(counts.availabilities, a),
-          }))}
-        />
-      </Group>
-
-      <Group title="Brand" badge={filters.brands.length}>
-        <CheckGroup
-          selected={filters.brands}
-          onToggle={(v) => patch({ brands: toggle(filters.brands, v) })}
-          options={present.brands.map((b) => ({
-            value: b,
-            label: b,
-            count: c(counts.brands, b),
           }))}
         />
       </Group>

@@ -2,6 +2,7 @@ import { glossary } from '@/data';
 import { COST_BANDS } from '@/lib/cost';
 import { FIT_STATUS_LABEL, type FitStatus } from '@/lib/fitment';
 import { CostGlyphs } from '@/components/atoms';
+import { PlaceholderLegend } from '@/components/PlaceholderLegend';
 
 const FIT_EXPLAIN: Record<FitStatus, string> = {
   direct: 'Drops in — bores, footprint and feet all match.',
@@ -31,6 +32,17 @@ export function Learn() {
           The vocabulary and rules behind movement modding — enough to read a
           spec sheet and judge a parts list with confidence.
         </p>
+      </section>
+
+      <section>
+        <h2 className="mb-3 text-lg font-semibold">
+          Reading the movement diagrams
+        </h2>
+        <p className="mb-3 text-sm text-ink-muted">
+          Until a license-clean photo is added, each movement shows a generated
+          schematic — a stylised disc whose marks are derived from its specs:
+        </p>
+        <PlaceholderLegend />
       </section>
 
       <section>

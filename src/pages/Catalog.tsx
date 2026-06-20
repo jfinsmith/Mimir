@@ -9,6 +9,7 @@ import { ActiveFilterChips } from '@/components/ActiveFilterChips';
 import { SortControl } from '@/components/SortControl';
 import { MovementCard } from '@/components/MovementCard';
 import { CompareBar } from '@/components/CompareBar';
+import { PlaceholderLegend } from '@/components/PlaceholderLegend';
 
 export function Catalog() {
   const { filters, patch, reset } = useCatalogState();
@@ -93,11 +94,26 @@ export function Catalog() {
 
         {/* Results */}
         <section className="min-w-0 flex-1">
-          <div className="mb-3 flex items-center justify-between gap-2">
+          <div className="mb-2 flex items-center justify-between gap-2">
             <p className="text-sm text-ink-muted">
               {results.length} of {movements.length} movements
             </p>
           </div>
+
+          <details className="mb-3 text-sm">
+            <summary className="cursor-pointer list-none text-ink-muted hover:text-ink">
+              <span className="underline decoration-dotted decoration-ink-muted/50">
+                What do the card diagrams mean?
+              </span>
+            </summary>
+            <div className="mt-2 rounded-card border border-border bg-surface p-4">
+              <p className="mb-3 text-xs text-ink-muted">
+                Each card shows a generated schematic of the movement (not a
+                photo); its look is derived from the specs.
+              </p>
+              <PlaceholderLegend />
+            </div>
+          </details>
 
           <ActiveFilterChips filters={filters} patch={patch} reset={reset} />
 
