@@ -23,13 +23,14 @@ export const families: MovementFamily[] = [
   },
   {
     id: 'miyota-82xx',
-    label: 'Miyota 82xx (8215 / 821A / 8205 / 8200 / 82S7)',
+    label: 'Miyota 82xx (8215 / 821A / 8205 / 8200 / 82S7 / 8315)',
     members: [
       'miyota-8215',
       'miyota-821a',
       'miyota-8205',
       'miyota-8200',
       'miyota-82s7',
+      'miyota-8315',
     ],
     sharedHandSizes: { hour: 1.5, minute: 1.0, second: 0.17 },
     sharedDialFeet: ['5:30', '10:30'],
@@ -39,8 +40,8 @@ export const families: MovementFamily[] = [
   },
   {
     id: 'miyota-9xxx',
-    label: 'Miyota 9xxx (9015 / 9039)',
-    members: ['miyota-9015', 'miyota-9039'],
+    label: 'Miyota 9xxx (9015 / 9039 / 9019 / 9132)',
+    members: ['miyota-9015', 'miyota-9039', 'miyota-9019', 'miyota-9132'],
     sharedHandSizes: { hour: 1.5, minute: 0.9, second: 0.25 },
     sharedDialFeet: null,
     sharedDiameterMm: 26.0,
@@ -50,15 +51,19 @@ export const families: MovementFamily[] = [
   {
     id: 'eta-2824-clones',
     label:
-      'ETA 2824-2 footprint (2824-2 / 2801-2 / 2836-2 / SW200-1 / SW220-1 / ST2130 / PT5000 / Hangzhou 6300)',
+      'ETA 2824-2 footprint (2824-2 / 2801-2 / 2834-2 / 2836-2 / SW200-1 / SW210-1 / SW220-1 / SW240-1 / ST2130 / PT5000 / STP1-11 / Hangzhou 6300)',
     members: [
       'eta-2824-2',
       'eta-2801-2',
+      'eta-2834-2',
       'eta-2836-2',
       'sellita-sw200-1',
+      'sellita-sw210-1',
       'sellita-sw220-1',
+      'sellita-sw240-1',
       'seagull-st2130',
       'hkpt-pt5000',
+      'stp-1-11',
       'hangzhou-6300',
     ],
     sharedHandSizes: { hour: 1.5, minute: 0.9, second: 0.25 },
@@ -69,9 +74,17 @@ export const families: MovementFamily[] = [
   },
   {
     id: 'eta-2892-clones',
-    label: 'ETA 2892-A2 footprint (2892-A2 / SW300-1 / Soprod A10)',
-    members: ['eta-2892-a2', 'sellita-sw300-1', 'soprod-a10'],
-    sharedHandSizes: { hour: 1.5, minute: 0.9, second: 0.2 }, // table flags second bore "verify"
+    label:
+      'ETA 2892-A2 footprint (2892-A2 / 2893-2 GMT / 2895-2 / SW300-1 / SW330-2 / Soprod A10)',
+    members: [
+      'eta-2892-a2',
+      'eta-2893-2',
+      'eta-2895-2',
+      'sellita-sw300-1',
+      'sellita-sw330-2',
+      'soprod-a10',
+    ],
+    sharedHandSizes: { hour: 1.5, minute: 0.9, second: null }, // second bore varies by variant (0.20 vs 0.25)
     sharedDialFeet: null,
     sharedDiameterMm: 25.6,
     notes:
@@ -79,8 +92,14 @@ export const families: MovementFamily[] = [
   },
   {
     id: 'valjoux-7750-clones',
-    label: 'Valjoux 7750 footprint (7750 / 7751 / Sellita SW500)',
-    members: ['eta-7750', 'eta-7751', 'sellita-sw500'],
+    label: 'Valjoux 7750 footprint (7750 / 7751 / 7753 / SW500 / SW510)',
+    members: [
+      'eta-7750',
+      'eta-7751',
+      'eta-7753',
+      'sellita-sw500',
+      'sellita-sw510',
+    ],
     sharedHandSizes: { hour: 1.5, minute: 0.9, second: 0.25 }, // 7750 verified; 7751/SW500 left null (compatible)
     sharedDialFeet: null,
     sharedDiameterMm: 30.0,
@@ -89,8 +108,8 @@ export const families: MovementFamily[] = [
   },
   {
     id: 'ronda-5xx',
-    label: 'Ronda 5xx quartz (515 / 515.24H / 715)',
-    members: ['ronda-515', 'ronda-515-24h', 'ronda-715'],
+    label: 'Ronda 5xx quartz (515 / 515.24H / 715 / 513)',
+    members: ['ronda-515', 'ronda-515-24h', 'ronda-715', 'ronda-513'],
     sharedHandSizes: { hour: 1.2, minute: 0.7, second: 0.2 },
     sharedDialFeet: null,
     sharedDiameterMm: 26.0,
@@ -109,8 +128,8 @@ export const families: MovementFamily[] = [
   },
   {
     id: 'seagull-st19',
-    label: 'Seagull ST19 chronograph (ST1901)',
-    members: ['seagull-st1901'],
+    label: 'Seagull ST19 chronograph (ST1901 / ST1903)',
+    members: ['seagull-st1901', 'seagull-st1903'],
     sharedHandSizes: null,
     sharedDialFeet: null,
     sharedDiameterMm: 31.3,
@@ -139,8 +158,8 @@ export const families: MovementFamily[] = [
   },
   {
     id: 'seiko-vk-mecaquartz',
-    label: 'Seiko/TMI VK mecaquartz (VK63 / VK64 / VK67)',
-    members: ['seiko-vk63', 'seiko-vk67'],
+    label: 'Seiko/TMI VK mecaquartz (VK63 / VK64 / VK67 / VK68)',
+    members: ['seiko-vk63', 'seiko-vk67', 'seiko-vk68'],
     sharedHandSizes: null,
     sharedDialFeet: null,
     sharedDiameterMm: null,
@@ -179,8 +198,8 @@ export const families: MovementFamily[] = [
   },
   {
     id: 'seiko-6rxx',
-    label: 'Seiko 6R-series (6R15 / 6R35)',
-    members: ['seiko-6r15', 'seiko-6r35'],
+    label: 'Seiko 6R-series (6R15 / 6R35 / 6R64 GMT)',
+    members: ['seiko-6r15', 'seiko-6r35', 'seiko-6r64'],
     sharedHandSizes: { hour: 1.5, minute: 0.9, second: 0.21 },
     sharedDialFeet: null,
     sharedDiameterMm: 27.4,
@@ -189,8 +208,8 @@ export const families: MovementFamily[] = [
   },
   {
     id: 'seiko-nh7x',
-    label: 'Seiko NH7x skeleton (NH70)',
-    members: ['seiko-nh70'],
+    label: 'Seiko NH7x skeleton (NH70 / NH72)',
+    members: ['seiko-nh70', 'seiko-nh72'],
     sharedHandSizes: null,
     sharedDialFeet: null,
     sharedDiameterMm: 27.4,
@@ -219,8 +238,8 @@ export const families: MovementFamily[] = [
   },
   {
     id: 'miyota-osxx',
-    label: 'Miyota OS-series quartz chronographs (OS20)',
-    members: ['miyota-os20'],
+    label: 'Miyota OS-series quartz chronographs (OS20 / OS10)',
+    members: ['miyota-os20', 'miyota-0s10'],
     sharedHandSizes: null,
     sharedDialFeet: null,
     sharedDiameterMm: 30.8,
@@ -269,13 +288,91 @@ export const families: MovementFamily[] = [
   },
   {
     id: 'dixmont-dgxx',
-    label: 'Dixmont Guangzhou DG2813 (DG2813)',
-    members: ['dixmont-dg2813'],
+    label: 'Dixmont Guangzhou (DG2813 / DG5833)',
+    members: ['dixmont-dg2813', 'dixmont-dg5833'],
     sharedHandSizes: null,
     sharedDialFeet: null,
     sharedDiameterMm: 26.0,
     notes:
-      'Very inexpensive Chinese auto on a Miyota-8200-style base (NOT a 2824 clone). Widely used in open-heart/skeleton homages with feetless dials.',
+      'Very inexpensive Chinese autos on a Miyota-8200-style base (NOT 2824 clones). Widely used in open-heart/skeleton homages with feetless dials.',
+  },
+  {
+    id: 'eta-2671',
+    label: "ETA 2671 (ladies' automatic)",
+    members: ['eta-2671'],
+    sharedHandSizes: null,
+    sharedDialFeet: null,
+    sharedDiameterMm: 17.2,
+    notes:
+      "Small (~17.2mm / 7.75‴) ladies' automatic with date — for compact builds.",
+  },
+  {
+    id: 'eta-c07',
+    label: 'ETA C07 (Powermatic 80)',
+    members: ['eta-c07-111'],
+    sharedHandSizes: null,
+    sharedDialFeet: null,
+    sharedDiameterMm: null,
+    notes:
+      'ETA Powermatic 80: ~80h reserve, slowed 21,600 vph, synthetic escapement. 2824-derived footprint (Tissot/Hamilton/Certina).',
+  },
+  {
+    id: 'eta-9xx-quartz',
+    label: 'ETA 9-series quartz (955.112)',
+    members: ['eta-955-112'],
+    sharedHandSizes: null,
+    sharedDialFeet: null,
+    sharedDiameterMm: null,
+    notes:
+      'Swiss 3-hand + date quartz workhorse, widely used in mid-range watches.',
+  },
+  {
+    id: 'eta-g10-quartz',
+    label: 'ETA G10 quartz chronograph (G10.211)',
+    members: ['eta-g10-211'],
+    sharedHandSizes: null,
+    sharedDialFeet: null,
+    sharedDiameterMm: null,
+    notes:
+      'Swiss quartz chronograph (small running seconds + central chrono); a microbrand staple.',
+  },
+  {
+    id: 'ronda-76x',
+    label: 'Ronda 76x quartz chronograph (763)',
+    members: ['ronda-763'],
+    sharedHandSizes: null,
+    sharedDialFeet: null,
+    sharedDiameterMm: null,
+    notes:
+      'Swiss quartz chronograph family (3-eye). Smaller hand bores than the mechanicals.',
+  },
+  {
+    id: 'seiko-7txx',
+    label: 'Seiko 7T quartz chronograph (7T92)',
+    members: ['seiko-7t92'],
+    sharedHandSizes: null,
+    sharedDialFeet: null,
+    sharedDiameterMm: null,
+    notes: 'Seiko/TMI quartz chronograph (1/1-sec), date; the 7T-series.',
+  },
+  {
+    id: 'seagull-st28',
+    label: 'Seagull ST28 power-reserve auto (TY2806)',
+    members: ['seagull-ty2806'],
+    sharedHandSizes: null,
+    sharedDialFeet: null,
+    sharedDiameterMm: null,
+    notes: 'Tianjin Seagull automatic with a power-reserve indicator + date.',
+  },
+  {
+    id: 'ljp-g100',
+    label: 'La Joux-Perret G100',
+    members: ['la-joux-perret-g100'],
+    sharedHandSizes: null,
+    sharedDialFeet: null,
+    sharedDiameterMm: null,
+    notes:
+      'Modern Swiss automatic, ~68h reserve, date, 28,800 vph — popular in enthusiast microbrands.',
   },
 ];
 

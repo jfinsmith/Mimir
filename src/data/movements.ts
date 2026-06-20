@@ -1,4 +1,5 @@
 import type { Movement, SourceRef } from '@/types';
+import { batch2Movements } from './movements.batch2';
 
 // ─────────────────────────────────────────────────────────────────────────────
 // SEED MOVEMENTS — the full Section-7 set (25 calibers).
@@ -41,7 +42,7 @@ const etaSite: SourceRef = {
   url: 'https://www.eta.ch/',
 };
 
-export const movements: Movement[] = [
+const coreMovements: Movement[] = [
   // ── Seiko NH3x ─────────────────────────────────────────────────────────────
   {
     id: 'seiko-nh35',
@@ -2583,6 +2584,9 @@ export const movements: Movement[] = [
     dataConfidence: 'high',
   },
 ];
+
+/** Full catalog = hand-authored core + the sourced round-2 batch. */
+export const movements: Movement[] = [...coreMovements, ...batch2Movements];
 
 /** id → movement lookup. */
 export const movementsById: Record<string, Movement> = Object.fromEntries(
