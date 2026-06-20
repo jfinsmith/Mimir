@@ -1,7 +1,88 @@
 // Small presentational atoms shared across pages.
+import { useState } from 'react';
 import type { Availability, CostTier, DataConfidence } from '@/types';
 import { bandForTier } from '@/lib/cost';
 import { AVAILABILITY_LABEL } from '@/lib/labels';
+
+/** External link, always opened safely in a new tab with a screen-reader cue. */
+export function ExternalLink({
+  href,
+  children,
+  className = '',
+  title,
+}: {
+  href: string;
+  children: React.ReactNode;
+  className?: string;
+  title?: string;
+}) {
+  return (
+    <a
+      href={href}
+      target="_blank"
+      rel="noopener noreferrer"
+      title={title}
+      className={className}
+    >
+      {children}
+      <span aria-hidden> ↗</span>
+      <span className="sr-only"> (opens in a new tab)</span>
+    </a>
+  );
+}
+
+async function copyText(text: string): Promise<boolean> {
+  try {
+    if (navigator.clipboard?.writeText) {
+      await navigator.clipboard.writeText(text);
+      return true;
+    }
+  } catch {
+    /* fall through to the legacy path */
+  }
+  try {
+    const ta = document.createElement('textarea');
+    ta.value = text;
+    ta.style.position = 'fixed';
+    ta.style.opacity = '0';
+    document.body.appendChild(ta);
+    ta.select();
+    const ok = document.execCommand('copy');
+    document.body.removeChild(ta);
+    return ok;
+  } catch {
+    return false;
+  }
+}
+
+/** Copy-to-clipboard chip (e.g. an exact search string). Has a non-secure fallback. */
+export function CopyChip({
+  text,
+  label = 'Copy search',
+  className = '',
+}: {
+  text: string;
+  label?: string;
+  className?: string;
+}) {
+  const [done, setDone] = useState(false);
+  return (
+    <button
+      type="button"
+      onClick={async () => {
+        if (await copyText(text)) {
+          setDone(true);
+          window.setTimeout(() => setDone(false), 1500);
+        }
+      }}
+      aria-live="polite"
+      title={`Copy: ${text}`}
+      className={`rounded border border-border px-1.5 py-0.5 text-[11px] text-ink-muted hover:border-brand/50 hover:text-ink ${className}`}
+    >
+      {done ? '✓ Copied' : label}
+    </button>
+  );
+}
 
 export function CostGlyphs({
   tier,

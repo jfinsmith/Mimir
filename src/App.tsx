@@ -1,5 +1,6 @@
 import { Suspense } from 'react';
 import { Link, NavLink, Outlet } from 'react-router-dom';
+import { RegionSelect } from '@/components/RegionSelect';
 
 function navClass({ isActive }: { isActive: boolean }): string {
   return [
@@ -43,6 +44,7 @@ export function App() {
               </NavLink>
             ))}
           </nav>
+          <RegionSelect className="ml-1" />
         </div>
       </header>
 

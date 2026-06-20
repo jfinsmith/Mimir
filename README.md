@@ -124,6 +124,32 @@ opening within ±0.2mm counts as a snug direct fit.
 
 ---
 
+## Buying the right part (sourcing links)
+
+MIMIR can't sell parts (it's static), so instead it turns each record into
+**precise, copy-ready searches and deep-links** that land you on the correct
+item. [`src/lib/buyLinks.ts`](src/lib/buyLinks.ts) is a pure module (like
+`cost.ts`/`fitment.ts`):
+
+- `buildBuyLinks(movement | part, region)` → an ordered list of `{label, url,
+  kind, copyString}` for the item's own `commonVendors`, eBay (+ sold-price
+  comps for movements), and a Google fallback — rendered by `<VendorLinks>` on
+  movement/part detail, "parts that fit", and every Build Planner slot.
+- `discriminatorChecklist(category, movement)` surfaces the fields you must
+  confirm to get the right **variant** (hand bores, dial feet, crown position,
+  stem part no.); unknown fields show as "verify", never a guess.
+- The Build Planner exports a **shopping list** (one query per slot + "open
+  each").
+
+Principles (enforced): **forced-exact** queries (quoted strings, `site:`,
+`-replica -fake -clone`, alias `OR`-groups), one `encodeURIComponent` pass,
+search-URLs over fragile product-URLs, and a **region toggle** (US/UK/EU/AU) in
+the header. Only *verified* retailer URL schemes emit native deep-links; anything
+unverified degrades to a precise Google `site:` search. Links are **neutral**
+(no affiliate, no trackers) with a single `withAffiliate()` seam for the future;
+whole-watch sources are never offered for a loose part. Every row carries a
+"verify before buying" caution.
+
 ## Adding a movement or part
 
 1. Add a typed object to [`src/data/movements.ts`](src/data/movements.ts) or

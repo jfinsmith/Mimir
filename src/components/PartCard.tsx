@@ -1,6 +1,7 @@
 import type { Part } from '@/types';
 import type { FitVerdict } from '@/lib/fitment';
 import { FitBadge } from './FitBadge';
+import { VendorLinks } from './VendorLinks';
 import { ConfidenceTag } from './atoms';
 import { fmtPriceRange } from '@/lib/format';
 import { PART_CATEGORY_LABEL } from '@/lib/labels';
@@ -30,13 +31,11 @@ export function PartCard({
 
       {p.notes && <p className="text-xs text-ink-muted">{p.notes}</p>}
 
-      <div className="mt-auto flex items-center justify-between pt-1 text-xs text-ink-muted">
-        <span>{fmtPriceRange(p.priceUsdLow, p.priceUsdHigh)}</span>
-        {p.commonVendors.length > 0 && (
-          <span className="truncate pl-2 text-right">
-            {p.commonVendors.join(', ')}
-          </span>
-        )}
+      <div className="mt-auto space-y-2 pt-1">
+        <div className="text-xs text-ink-muted">
+          {fmtPriceRange(p.priceUsdLow, p.priceUsdHigh)}
+        </div>
+        <VendorLinks item={p} max={5} compact />
       </div>
     </div>
   );

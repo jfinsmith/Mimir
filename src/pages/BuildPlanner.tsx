@@ -13,8 +13,12 @@ import {
   type CheckStatus,
   type ResolvedBuild,
 } from '@/lib/build';
+import { buildShoppingList } from '@/lib/buyLinks';
 import { useBuilds } from '@/hooks/useBuilds';
+import { useRegion } from '@/hooks/useRegion';
 import { FitBadge } from '@/components/FitBadge';
+import { DiscriminatorList, VendorLinks } from '@/components/VendorLinks';
+import { CopyChip, ExternalLink } from '@/components/atoms';
 import { PART_CATEGORY_LABEL } from '@/lib/labels';
 
 const SLOTS: PartCategory[] = [
@@ -142,6 +146,8 @@ export function BuildPlanner() {
   const overall = checks.length ? rollupStatus(checks) : 'unknown';
   const cost = runningCost(resolved);
   const missing = missingPieces(resolved);
+  const { region } = useRegion();
+  const shopping = buildShoppingList(resolved, region);
 
   const handleSave = () => {
     const b: Build = {
@@ -288,6 +294,16 @@ export function BuildPlanner() {
                     </ul>
                   </details>
                 )}
+
+                {movement && (
+                  <DiscriminatorList category={slot} movement={movement} />
+                )}
+
+                {selected && !selectedBlocked && (
+                  <div className="mt-1.5">
+                    <VendorLinks item={selected.part} max={5} compact />
+                  </div>
+                )}
               </Slot>
             );
           })}
@@ -380,6 +396,40 @@ export function BuildPlanner() {
                 <span>Total (midpoints)</span>
                 <span>${cost.total.toFixed(0)}</span>
               </div>
+            </>
+          )}
+        </div>
+
+        <div className="rounded-card border border-border bg-surface p-4">
+          <h2 className="mb-2 text-sm font-semibold">Shopping list</h2>
+          {shopping.lines.length === 0 ? (
+            <p className="text-sm text-ink-muted">
+              Add a movement and parts to generate precise searches.
+            </p>
+          ) : (
+            <>
+              <ul className="space-y-1 text-sm">
+                {shopping.openLinks.map((l) => (
+                  <li key={l.id} className="truncate">
+                    <ExternalLink
+                      href={l.url}
+                      className="text-brand hover:text-brand/80"
+                    >
+                      {l.label}
+                    </ExternalLink>
+                  </li>
+                ))}
+              </ul>
+              <div className="mt-2">
+                <CopyChip text={shopping.copyBlock} label="Copy all searches" />
+              </div>
+              {shopping.cautions.length > 0 && (
+                <ul className="mt-2 space-y-0.5 text-[11px] text-fit-mod">
+                  {shopping.cautions.map((c) => (
+                    <li key={c}>⚠ {c}</li>
+                  ))}
+                </ul>
+              )}
             </>
           )}
         </div>

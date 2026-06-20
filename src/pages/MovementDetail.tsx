@@ -3,6 +3,7 @@ import { movementsById, familiesById } from '@/data';
 import { MovementPlaceholder } from '@/components/MovementPlaceholder';
 import { SpecSheet } from '@/components/SpecSheet';
 import { PartsThatFit } from '@/components/PartsThatFit';
+import { VendorLinks } from '@/components/VendorLinks';
 import { AvailabilityDot, ConfidenceTag, CostGlyphs } from '@/components/atoms';
 import { useCompare } from '@/hooks/useCompare';
 import {
@@ -153,6 +154,15 @@ export function MovementDetail() {
           </p>
         </section>
       )}
+
+      <section>
+        <h2 className="mb-1 text-lg font-semibold">Where to buy</h2>
+        <p className="mb-3 text-sm text-ink-muted">
+          Precise searches built from this caliber and its aliases. Cross-check
+          the spec sheet against the listing before buying.
+        </p>
+        <VendorLinks item={m} />
+      </section>
 
       <section>
         <h2 className="mb-2 text-lg font-semibold">References</h2>
