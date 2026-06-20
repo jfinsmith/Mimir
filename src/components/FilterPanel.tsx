@@ -191,11 +191,15 @@ export function FilterPanel({
   searchOrder: string[] | null;
 }) {
   const counts = useMemo(() => {
-    const of = (dim: FilterDimension, valueOf: (m: Movement) => string[]) =>
-      facetCounts(movements, filters, dim, valueOf, searchOrder);
+    const of = (
+      except: FilterDimension | null,
+      valueOf: (m: Movement) => string[],
+    ) => facetCounts(movements, filters, except, valueOf, searchOrder);
     return {
       types: of('types', (m) => [m.type]),
-      complications: of('complications', (m) => m.complications),
+      // Complications are AND-matched, so count with NO dimension excluded:
+      // options that can't co-occur with the current selection grey out.
+      complications: of(null, (m) => m.complications),
       beatRates: of('beatRates', (m) => [
         m.beatRateVph != null ? String(m.beatRateVph) : 'quartz',
       ]),

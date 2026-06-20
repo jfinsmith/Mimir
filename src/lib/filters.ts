@@ -284,14 +284,20 @@ export interface FacetCount {
 }
 
 /**
- * For a multi-select dimension, count movements that pass all OTHER dimensions
- * (so each option shows how many results it would yield). `searchOrder`
- * restricts the universe when a search is active.
+ * Tally how many movements each facet value would yield.
+ *
+ * `except` is the dimension to IGNORE while counting:
+ *  - For OR facets (type, brand, cost, …) pass that facet's own dimension, so
+ *    picking one option doesn't grey out the others in the same facet.
+ *  - For the AND facet (complications) pass `null`, so the counts respect the
+ *    already-selected complications and options that can't co-occur grey out.
+ *
+ * `searchOrder` restricts the universe when a search is active.
  */
 export function facetCounts(
   movements: Movement[],
   state: FilterState,
-  dimension: FilterDimension,
+  except: FilterDimension | null,
   valueOf: (m: Movement) => string[],
   searchOrder: string[] | null,
 ): Map<string, number> {
@@ -300,7 +306,7 @@ export function facetCounts(
     ? movements.filter((m) => searchOrder.includes(m.id))
     : movements;
   for (const m of universe) {
-    if (!passesExcept(m, state, dimension)) continue;
+    if (!passesExcept(m, state, except)) continue;
     for (const v of valueOf(m)) {
       counts.set(v, (counts.get(v) ?? 0) + 1);
     }

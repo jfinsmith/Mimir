@@ -4,6 +4,7 @@ import {
   applyFilters,
   complicationCount,
   emptyFilters,
+  facetCounts,
   filtersFromSearchParams,
   filtersToSearchParams,
   sortMovements,
@@ -120,6 +121,39 @@ describe('sortMovements', () => {
     expect(
       sortMovements([unknown, known], 'diameter-asc').map((m) => m.id),
     ).toEqual(['k', 'u']);
+  });
+});
+
+describe('facetCounts', () => {
+  const chrono = makeMovement({
+    id: 'c',
+    complications: ['hours', 'minutes', 'small-seconds', 'chronograph', 'date'],
+  });
+  const dateOnly = makeMovement({
+    id: 'd',
+    complications: ['hours', 'minutes', 'central-seconds', 'date'],
+  });
+  const moon = makeMovement({
+    id: 'm',
+    complications: ['hours', 'minutes', 'central-seconds', 'date', 'moonphase'],
+  });
+  const all = [chrono, dateOnly, moon];
+
+  it('complications are AND-aware (except=null): non-co-occurring options go to 0', () => {
+    const state = {
+      ...emptyFilters(),
+      complications: ['chronograph' as const],
+    };
+    const counts = facetCounts(all, state, null, (m) => m.complications, null);
+    expect(counts.get('chronograph')).toBe(1); // the chrono movement itself
+    expect(counts.get('date')).toBe(1); // chrono also has a date → stays
+    expect(counts.get('moonphase') ?? 0).toBe(0); // no chrono+moonphase → greys out
+  });
+
+  it('OR facets exclude their own dimension so siblings stay counted', () => {
+    const state = { ...emptyFilters(), types: ['automatic' as const] };
+    const counts = facetCounts(all, state, 'types', (m) => [m.type], null);
+    expect(counts.get('automatic')).toBe(3); // type filter ignored for its own facet
   });
 });
 
