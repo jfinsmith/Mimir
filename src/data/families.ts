@@ -211,8 +211,14 @@ export const families: MovementFamily[] = [
   },
   {
     id: 'seiko-4rxx',
-    label: 'Seiko 4R-series (4R34 / 4R35 / 4R36 / 4R39)',
-    members: ['seiko-4r34', 'seiko-4r35', 'seiko-4r36', 'seiko-4r39'],
+    label: 'Seiko 4R-series (4R34 / 4R35 / 4R36 / 4R39 / 4R57 PR)',
+    members: [
+      'seiko-4r34',
+      'seiko-4r35',
+      'seiko-4r36',
+      'seiko-4r39',
+      'seiko-4r57',
+    ],
     sharedHandSizes: { hour: 1.5, minute: 0.9, second: 0.21 },
     sharedDialFeet: null,
     sharedDiameterMm: 27.4,
@@ -221,8 +227,15 @@ export const families: MovementFamily[] = [
   },
   {
     id: 'seiko-6rxx',
-    label: 'Seiko 6R-series (6R15 / 6R35 / 6R55 / 6R64 GMT)',
-    members: ['seiko-6r15', 'seiko-6r35', 'seiko-6r55', 'seiko-6r64'],
+    label: 'Seiko 6R-series (6R15 / 6R35 / 6R51 / 6R54 / 6R55 / 6R64 GMT)',
+    members: [
+      'seiko-6r15',
+      'seiko-6r35',
+      'seiko-6r51',
+      'seiko-6r54',
+      'seiko-6r55',
+      'seiko-6r64',
+    ],
     sharedHandSizes: { hour: 1.5, minute: 0.9, second: 0.21 },
     sharedDialFeet: null,
     sharedDiameterMm: 27.4,
@@ -616,7 +629,7 @@ export const families: MovementFamily[] = [
   {
     id: 'orient-f6xx',
     label: 'Orient F6-series (F6922 day-date / F6722 date)',
-    members: ['orient-f6922'],
+    members: ['orient-f6922', 'orient-f6722'],
     sharedHandSizes: null,
     sharedDialFeet: null,
     sharedDiameterMm: 27.4,
@@ -764,6 +777,25 @@ export const families: MovementFamily[] = [
     sharedDialFeet: null,
     sharedDiameterMm: null,
     notes: "Very small ladies' quartz, 3-hand.",
+  },
+  {
+    id: 'seiko-8lxx',
+    label: 'Seiko 8L-series (8L35)',
+    members: ['seiko-8l35'],
+    sharedHandSizes: null,
+    sharedDialFeet: null,
+    sharedDiameterMm: null,
+    notes:
+      'High-end Seiko automatic (Marinemaster 300); the undecorated 9S sibling. Rarely sold loose — price unknown.',
+  },
+  {
+    id: 'stp-3-13',
+    label: 'STP3-13 (ETA 2892 analog)',
+    members: ['stp-3-13'],
+    sharedHandSizes: null,
+    sharedDialFeet: null,
+    sharedDiameterMm: null,
+    notes: 'Swiss thin automatic (Fossil Group STP), ETA 2892 analog.',
   },
 ];
 

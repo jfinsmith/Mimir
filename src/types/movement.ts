@@ -47,7 +47,7 @@ export interface Movement {
   // ── Commerce ─────────────────────────────────────────────────────────────
   priceUsdLow: number | null; // typical street/parts price (single unit)
   priceUsdHigh: number | null;
-  costTier: CostTier; // DERIVED via lib/cost.ts; cached for fast filtering
+  costTier: CostTier | null; // DERIVED via lib/cost.ts; null = price unknown
   availability: Availability;
   commonVendors: string[];
 

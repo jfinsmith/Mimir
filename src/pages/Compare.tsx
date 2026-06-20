@@ -79,7 +79,10 @@ const GROUPS: { title: string; rows: Row[] }[] = [
   {
     title: 'Commerce',
     rows: [
-      { label: 'Cost tier', get: (m) => '$'.repeat(m.costTier) },
+      {
+        label: 'Cost tier',
+        get: (m) => (m.costTier == null ? '—' : '$'.repeat(m.costTier)),
+      },
       {
         label: 'Price',
         get: (m) => fmtPriceRange(m.priceUsdLow, m.priceUsdHigh),

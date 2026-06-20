@@ -52,7 +52,7 @@ export function ActiveFilterChips({
   for (const tier of filters.costTiers)
     chips.push({
       key: `tier-${tier}`,
-      label: `${'$'.repeat(tier)} tier`,
+      label: tier === 0 ? 'Unknown price' : `${'$'.repeat(tier)} tier`,
       clear: () => patch({ costTiers: without(filters.costTiers, tier) }),
     });
 

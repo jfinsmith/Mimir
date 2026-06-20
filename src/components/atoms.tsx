@@ -7,9 +7,16 @@ export function CostGlyphs({
   tier,
   showLabel = false,
 }: {
-  tier: CostTier;
+  tier: CostTier | null;
   showLabel?: boolean;
 }) {
+  if (tier == null) {
+    return (
+      <span className="text-ink-muted" title="Price unknown">
+        —{showLabel && <span className="ml-2">Unknown price</span>}
+      </span>
+    );
+  }
   const band = bandForTier(tier);
   return (
     <span

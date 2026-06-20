@@ -9,8 +9,8 @@ describe('priceToMidpoint', () => {
     expect(priceToMidpoint(20, null)).toBe(20);
     expect(priceToMidpoint(null, 500)).toBe(500);
   });
-  it('throws when neither bound is known (forces data discipline)', () => {
-    expect(() => priceToMidpoint(null, null)).toThrow();
+  it('returns null when neither bound is known (price unknown)', () => {
+    expect(priceToMidpoint(null, null)).toBeNull();
   });
 });
 
@@ -60,8 +60,8 @@ describe('priceToTier — single-sided prices', () => {
   it('uses high when low is null', () => {
     expect(priceToTier(null, 450)).toBe(5);
   });
-  it('throws when both are null', () => {
-    expect(() => priceToTier(null, null)).toThrow();
+  it('returns null when both are null (price unknown → no tier)', () => {
+    expect(priceToTier(null, null)).toBeNull();
   });
 });
 

@@ -74,24 +74,26 @@ const TIER_COUNT = COST_BANDS.length; // 5
 
 /**
  * Collapse a low/high price range to the single value the tier is computed from.
- * Throws if neither bound is known — a movement with no price cannot have a
- * derived tier, and we refuse to invent one.
+ * Returns `null` when neither bound is known — such a movement has no derived
+ * tier (we refuse to invent a price), and shows as "unknown" in the UI.
  */
 export function priceToMidpoint(
   low: number | null,
   high: number | null,
-): number {
+): number | null {
   if (low != null && high != null) return (low + high) / 2;
   if (low != null) return low;
   if (high != null) return high;
-  throw new Error(
-    'priceToMidpoint: need at least one of priceUsdLow / priceUsdHigh',
-  );
+  return null;
 }
 
-/** Map a price range to its 1–5 cost tier via the midpoint. */
-export function priceToTier(low: number | null, high: number | null): CostTier {
+/** Map a price range to its 1–5 cost tier via the midpoint, or null if no price. */
+export function priceToTier(
+  low: number | null,
+  high: number | null,
+): CostTier | null {
   const midpoint = priceToMidpoint(low, high);
+  if (midpoint == null) return null;
   const band = COST_BANDS.find((b) => midpoint < b.maxMidpointUsd);
   // The last band's upper bound is Infinity, so `band` is always defined.
   return (band ?? COST_BANDS[COST_BANDS.length - 1]!).tier;

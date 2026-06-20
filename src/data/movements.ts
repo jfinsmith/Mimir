@@ -3,6 +3,7 @@ import { batch2Movements } from './movements.batch2';
 import { batch3Movements } from './movements.batch3';
 import { batch4Movements } from './movements.batch4';
 import { batch5Movements } from './movements.batch5';
+import { batch6Movements } from './movements.batch6';
 
 // ─────────────────────────────────────────────────────────────────────────────
 // SEED MOVEMENTS — the full Section-7 set (25 calibers).
@@ -2588,13 +2589,14 @@ const coreMovements: Movement[] = [
   },
 ];
 
-/** Full catalog = hand-authored core + the sourced round-2…5 batches. */
+/** Full catalog = hand-authored core + the sourced round-2…6 batches. */
 export const movements: Movement[] = [
   ...coreMovements,
   ...batch2Movements,
   ...batch3Movements,
   ...batch4Movements,
   ...batch5Movements,
+  ...batch6Movements,
 ];
 
 /** id → movement lookup. */

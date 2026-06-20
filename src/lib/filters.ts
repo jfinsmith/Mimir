@@ -20,6 +20,9 @@ import {
 
 export type TriState = 'any' | 'yes' | 'no';
 
+/** Cost-tier filter values: the 1–5 tiers plus 0 = "unknown" (no price). */
+export type CostTierFilter = CostTier | 0;
+
 export type SortKey =
   | 'relevance'
   | 'az'
@@ -51,7 +54,7 @@ export interface FilterState {
   hacking: TriState;
   handWinding: TriState;
   dateWindows: string[]; // '3' | '4.5' | '6' | 'none'
-  costTiers: CostTier[];
+  costTiers: CostTierFilter[];
   availabilities: Availability[];
   brands: string[];
   countries: string[];
@@ -179,7 +182,7 @@ const PREDICATES: Record<
       ? s.dateWindows.includes('none')
       : s.dateWindows.includes(m.dateWindowPosition)),
   costTiers: (m, s) =>
-    s.costTiers.length === 0 || s.costTiers.includes(m.costTier),
+    s.costTiers.length === 0 || s.costTiers.includes(m.costTier ?? 0),
   availabilities: (m, s) =>
     s.availabilities.length === 0 || s.availabilities.includes(m.availability),
   brands: (m, s) =>
@@ -355,7 +358,7 @@ export function filtersFromSearchParams(p: URLSearchParams): FilterState {
   s.dateWindows = LIST(p.get('date'));
   s.costTiers = LIST(p.get('tier'))
     .map(Number)
-    .filter((n) => n >= 1 && n <= 5) as CostTier[];
+    .filter((n) => n >= 0 && n <= 5) as CostTierFilter[];
   s.availabilities = LIST(p.get('avail')) as Availability[];
   s.brands = LIST(p.get('brand'));
   s.countries = LIST(p.get('country'));

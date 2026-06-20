@@ -71,15 +71,8 @@ checkDuplicateIds(
 const movementIds = new Set(movements.map((m) => m.id));
 const familyIds = new Set(families.map((f) => f.id));
 
-// ── Cost tier is derived, never hand-entered ─────────────────────────────────
+// ── Cost tier is derived, never hand-entered (null = price unknown) ──────────
 for (const m of movements) {
-  if (m.priceUsdLow == null && m.priceUsdHigh == null) {
-    err(
-      `movement:${m.id}`,
-      'has no price but a cached costTier — cannot derive tier',
-    );
-    continue;
-  }
   const derived = priceToTier(m.priceUsdLow, m.priceUsdHigh);
   if (m.costTier !== derived) {
     err(

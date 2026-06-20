@@ -5,13 +5,13 @@ import {
   MOVEMENT_TYPES,
   type Availability,
   type Complication,
-  type CostTier,
   type Movement,
   type MovementType,
 } from '@/types';
 import {
   facetCounts,
   makerOf,
+  type CostTierFilter,
   type FilterDimension,
   type FilterState,
 } from '@/lib/filters';
@@ -205,7 +205,7 @@ export function FilterPanel({
         m.beatRateVph != null ? String(m.beatRateVph) : 'quartz',
       ]),
       dateWindows: of('dateWindows', (m) => [m.dateWindowPosition ?? 'none']),
-      costTiers: of('costTiers', (m) => [String(m.costTier)]),
+      costTiers: of('costTiers', (m) => [String(m.costTier ?? 0)]),
       availabilities: of('availabilities', (m) => [m.availability]),
       brands: of('brands', (m) => [makerOf(m.brand)]),
       countries: of('countries', (m) =>
@@ -225,7 +225,7 @@ export function FilterPanel({
     const dateSet = new Set(
       movements.map((m) => m.dateWindowPosition ?? 'none'),
     );
-    const tierSet = new Set(movements.map((m) => m.costTier));
+    const tierSet = new Set(movements.map((m) => m.costTier ?? 0));
     const availSet = new Set(movements.map((m) => m.availability));
     const brandSet = new Set(movements.map((m) => makerOf(m.brand)));
     const countrySet = new Set(
@@ -244,7 +244,9 @@ export function FilterPanel({
       dates: [...dateSet].sort((a, b) =>
         a === 'none' ? 1 : b === 'none' ? -1 : Number(a) - Number(b),
       ),
-      tiers: [...tierSet].sort((a, b) => a - b),
+      tiers: [...tierSet].sort(
+        (a, b) => (a === 0 ? 99 : a) - (b === 0 ? 99 : b), // 0 = unknown, sort last
+      ),
       availabilities: AVAILABILITIES.filter((a) => availSet.has(a)),
       brands: [...brandSet].sort(),
       countries: [...countrySet].sort(),
@@ -290,12 +292,12 @@ export function FilterPanel({
           selected={filters.costTiers.map(String)}
           onToggle={(v) =>
             patch({
-              costTiers: toggle(filters.costTiers, Number(v) as CostTier),
+              costTiers: toggle(filters.costTiers, Number(v) as CostTierFilter),
             })
           }
           options={present.tiers.map((t) => ({
             value: String(t),
-            label: <CostGlyphs tier={t} />,
+            label: t === 0 ? 'Unknown' : <CostGlyphs tier={t} />,
             count: c(counts.costTiers, String(t)),
           }))}
         />

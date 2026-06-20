@@ -105,6 +105,22 @@ describe('applyFilters', () => {
   });
 });
 
+describe('cost tier filter (incl. unknown)', () => {
+  const priced = makeMovement({ id: 'p', costTier: 2 });
+  const unknown = makeMovement({ id: 'u', costTier: null });
+  const all = [priced, unknown];
+
+  it('selecting tier 0 matches price-unknown movements', () => {
+    const s = { ...emptyFilters(), costTiers: [0 as const] };
+    expect(applyFilters(all, s, null).map((m) => m.id)).toEqual(['u']);
+  });
+
+  it('selecting a numeric tier excludes price-unknown movements', () => {
+    const s = { ...emptyFilters(), costTiers: [2 as const] };
+    expect(applyFilters(all, s, null).map((m) => m.id)).toEqual(['p']);
+  });
+});
+
 describe('sortMovements', () => {
   it('sorts cost ascending by price midpoint', () => {
     const cheap = makeMovement({ id: 'c', priceUsdLow: 10, priceUsdHigh: 20 });

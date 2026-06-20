@@ -101,7 +101,7 @@ export const movementSchema = z
     batteryLifeMonths: z.number().positive().nullable(),
     priceUsdLow: nullableNonNegUsd,
     priceUsdHigh: nullableNonNegUsd,
-    costTier: costTierSchema,
+    costTier: costTierSchema.nullable(), // null = price unknown
     availability: z.enum(AVAILABILITIES),
     commonVendors: z.array(z.string()),
     manufactureCountry: z.string().nullable(),
