@@ -199,7 +199,7 @@ The `base` is the **#1 thing that breaks** when you move hosting. It lives in
 [`vite.config.ts`](vite.config.ts):
 
 ```ts
-const BASE_PATH = '/mimir/'; // ← change ONLY this line
+const BASE_PATH = '/Mimir/'; // ← change ONLY this line (must match the repo name's case)
 ```
 
 - **Project Pages** (`https://USER.github.io/REPO_NAME/`) → `'/REPO_NAME/'`

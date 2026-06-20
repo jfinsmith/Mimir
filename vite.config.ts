@@ -14,7 +14,7 @@ import { fileURLToPath, URL } from 'node:url';
 // If you move to a custom domain, ALSO set `pathSegmentsToKeep = 0` in
 // public/404.html (the SPA deep-link shim). See README → "Deployment".
 // ─────────────────────────────────────────────────────────────────────────────
-const BASE_PATH = '/mimir/';
+const BASE_PATH = '/Mimir/';
 
 // https://vitejs.dev/config/
 export default defineConfig({
