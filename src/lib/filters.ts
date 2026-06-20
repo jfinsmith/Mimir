@@ -136,9 +136,9 @@ export type FilterDimension =
   | 'handSizes';
 
 /**
- * Normalized maker for the Brand facet — collapses verbose/variant brand strings
- * ("Seiko (SII/TMI)", "Seiko (TMI)", "Seiko" → "Seiko"; "ETA (Unitas)" → "ETA")
- * so picking a brand groups all of that maker's calibers together.
+ * Normalized maker for the "Make" facet — collapses verbose/variant brand
+ * strings ("Seiko (SII/TMI)", "Seiko (TMI)", "Seiko" → "Seiko"; "ETA (Unitas)"
+ * → "ETA") so picking a make groups all of that maker's calibers together.
  */
 export function makerOf(brand: string): string {
   const base = brand.split('(')[0]?.trim() ?? '';

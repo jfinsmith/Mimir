@@ -301,7 +301,7 @@ export function FilterPanel({
         />
       </Group>
 
-      <Group title="Brand" badge={filters.brands.length} open>
+      <Group title="Make" badge={filters.brands.length} open>
         <CheckGroup
           selected={filters.brands}
           onToggle={(v) => patch({ brands: toggle(filters.brands, v) })}
