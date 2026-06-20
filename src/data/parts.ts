@@ -1,4 +1,5 @@
 import type { Part } from '@/types';
+import { partsBatch1 } from './parts.batch1';
 
 // ─────────────────────────────────────────────────────────────────────────────
 // STARTER PARTS — intentionally small, all `dataConfidence: 'low'` until curated.
@@ -8,7 +9,10 @@ import type { Part } from '@/types';
 // (Guardrail #2: images stay empty — no scraped/hot-linked product photos.)
 // ─────────────────────────────────────────────────────────────────────────────
 
-export const parts: Part[] = [
+// Demo placeholders (low-confidence, no refs) kept to exercise every fitment
+// verdict — incl. the dimensional with-spacer/incompatible cases the sparse
+// real-world listings rarely publish. The sourced catalog is partsBatch1.
+const placeholderParts: Part[] = [
   {
     id: 'case-nh3x-skx-style',
     category: 'case',
@@ -302,6 +306,9 @@ export const parts: Part[] = [
     dataConfidence: 'low',
   },
 ];
+
+/** Full parts catalog = demo placeholders + the sourced batch-1 parts. */
+export const parts: Part[] = [...placeholderParts, ...partsBatch1];
 
 /** id → part lookup. */
 export const partsById: Record<string, Part> = Object.fromEntries(

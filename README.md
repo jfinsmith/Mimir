@@ -212,7 +212,12 @@ scripts/      validate-data.ts · check-images.ts
 - **Phase 0 — Scaffold & contracts** ✅ — types, zod schemas, `cost.ts` +
   `fitment.ts` (tested), data validator, CI, Vite/Pages config.
 - **Phase 1 — Seed data** ✅ — typed, validated dataset: **153 movements /
-  74 families / 15 parts**, sourced from manufacturer technical sheets, Caliber
+  74 families / 101 parts** (86 sourced modding parts in `parts.batch1.ts` —
+  cases, dials, hands, crystals, bezels, stems/crowns, spacers, gaskets, rotors
+  from namokiMODS / DLW / CrystalTimes / Lucius Atelier / Otto Frei / Esslinger /
+  Cousins — each carrying `fitsFamilies` so fitment + the Build Planner's
+  incompatible-blocking work out of the box), sourced from manufacturer technical
+  sheets, Caliber
   Corner and WatchBase (every record cites its `references`; `dataConfidence`
   set honestly). Spans Swiss/Japanese/Chinese/Russian makers (incl. Orient,
   Vostok, Poljot, Seagull, Ronda) and every movement type — automatic, manual,
