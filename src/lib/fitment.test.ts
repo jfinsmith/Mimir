@@ -139,6 +139,17 @@ describe('Fitment engine — HANDS rules', () => {
     expect(v.reasons.join(' ')).toMatch(/second/i);
   });
 
+  it('absorbs source bore rounding (0.89 ≈ 0.90 minute) → not incompatible', () => {
+    const ccBores = makeMovement({
+      handSizes: { hour: 1.5, minute: 0.89, second: 0.21 },
+    });
+    const hands = makePart({
+      category: 'hands',
+      handBore: { hour: 1.5, minute: 0.9, second: 0.21 },
+    });
+    expect(evaluateFit(ccBores, hands).status).not.toBe('incompatible');
+  });
+
   it('unknown hand bore → check-clearance with a warning (not a fit)', () => {
     const blindMovement = makeMovement({
       handSizes: { hour: null, minute: null, second: null },

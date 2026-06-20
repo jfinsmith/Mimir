@@ -64,9 +64,13 @@ export function compareFitStatus(a: FitStatus, b: FitStatus): number {
 
 // ── Tolerances (mm) ──────────────────────────────────────────────────────────
 const CASE_OPENING_TOL_MM = 0.2; // within this, opening ≈ casing → snug fit
+// Hand bores come in discrete sizes; sources round the same hole to 0.89/0.90 or
+// 1.50/1.52. A 0.02mm tolerance absorbs that rounding while still rejecting the
+// next real size up (e.g. 0.90 vs 1.00 → incompatible). Applies to all bores.
+const HAND_BORE_TOL_MM = 0.02; // hour/minute bore tolerance
 const HAND_SECOND_TOL_MM = 0.02; // second/sweep bore tolerance
 const DEPTH_CAUTION_MM = 0.3; // clearance under this → "tight, verify"
-const EPS = 1e-6; // float-equality slack for "exact" bores/positions
+const EPS = 1e-6; // float-equality slack
 
 // ── Internal accumulator ─────────────────────────────────────────────────────
 interface Finding {
@@ -173,7 +177,7 @@ function checkHands(m: Movement, p: Part, acc: Acc, explicit: boolean): void {
   const mismatches: string[] = [];
   let anyUnknown = false;
 
-  // Hour & minute: must be EXACT.
+  // Hour & minute: must match within the bore tolerance.
   for (const key of ['hour', 'minute'] as const) {
     const mv = mh[key];
     const pv = ph[key];
@@ -181,7 +185,7 @@ function checkHands(m: Movement, p: Part, acc: Acc, explicit: boolean): void {
       anyUnknown = true;
       continue;
     }
-    if (Math.abs(mv - pv) > EPS) {
+    if (Math.abs(mv - pv) > HAND_BORE_TOL_MM + EPS) {
       mismatches.push(
         `${cap(key)} bore mismatch: hands need ${pv}mm but ${m.caliber} ${key} pinion is ${mv}mm.`,
       );

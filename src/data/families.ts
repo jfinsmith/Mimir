@@ -23,8 +23,14 @@ export const families: MovementFamily[] = [
   },
   {
     id: 'miyota-82xx',
-    label: 'Miyota 82xx (8215 / 821A / 8205)',
-    members: ['miyota-8215', 'miyota-821a', 'miyota-8205'],
+    label: 'Miyota 82xx (8215 / 821A / 8205 / 8200 / 82S7)',
+    members: [
+      'miyota-8215',
+      'miyota-821a',
+      'miyota-8205',
+      'miyota-8200',
+      'miyota-82s7',
+    ],
     sharedHandSizes: { hour: 1.5, minute: 1.0, second: 0.17 },
     sharedDialFeet: ['5:30', '10:30'],
     sharedDiameterMm: 26.0,
@@ -43,8 +49,18 @@ export const families: MovementFamily[] = [
   },
   {
     id: 'eta-2824-clones',
-    label: 'ETA 2824-2 footprint (2824-2 / SW200-1 / ST2130)',
-    members: ['eta-2824-2', 'sellita-sw200-1', 'seagull-st2130'],
+    label:
+      'ETA 2824-2 footprint (2824-2 / 2801-2 / 2836-2 / SW200-1 / SW220-1 / ST2130 / PT5000 / Hangzhou 6300)',
+    members: [
+      'eta-2824-2',
+      'eta-2801-2',
+      'eta-2836-2',
+      'sellita-sw200-1',
+      'sellita-sw220-1',
+      'seagull-st2130',
+      'hkpt-pt5000',
+      'hangzhou-6300',
+    ],
     sharedHandSizes: { hour: 1.5, minute: 0.9, second: 0.25 },
     sharedDialFeet: null, // "2824 feet" — exact positions unverified in seed sources
     sharedDiameterMm: 25.6,
@@ -53,8 +69,8 @@ export const families: MovementFamily[] = [
   },
   {
     id: 'eta-2892-clones',
-    label: 'ETA 2892-A2 footprint (2892-A2 / SW300-1)',
-    members: ['eta-2892-a2', 'sellita-sw300-1'],
+    label: 'ETA 2892-A2 footprint (2892-A2 / SW300-1 / Soprod A10)',
+    members: ['eta-2892-a2', 'sellita-sw300-1', 'soprod-a10'],
     sharedHandSizes: { hour: 1.5, minute: 0.9, second: 0.2 }, // table flags second bore "verify"
     sharedDialFeet: null,
     sharedDiameterMm: 25.6,
@@ -63,13 +79,13 @@ export const families: MovementFamily[] = [
   },
   {
     id: 'valjoux-7750-clones',
-    label: 'Valjoux 7750 footprint (ETA 7750 / Sellita SW500)',
-    members: ['eta-7750', 'sellita-sw500'],
-    sharedHandSizes: { hour: 1.5, minute: 0.9, second: 0.25 }, // 7750 verified; SW500 left null (compatible)
+    label: 'Valjoux 7750 footprint (7750 / 7751 / Sellita SW500)',
+    members: ['eta-7750', 'eta-7751', 'sellita-sw500'],
+    sharedHandSizes: { hour: 1.5, minute: 0.9, second: 0.25 }, // 7750 verified; 7751/SW500 left null (compatible)
     sharedDialFeet: null,
     sharedDiameterMm: 30.0,
     notes:
-      'Cam-actuated tri-compax chronograph workhorse — tall (7.9mm). Sellita SW500 is 7750-compatible (footprint, feet, stem).',
+      'Cam-actuated chronograph workhorse — tall (7.9mm). The 7751 adds a full calendar + moonphase; Sellita SW500 is 7750-compatible (footprint, feet, stem).',
   },
   {
     id: 'ronda-5xx',
@@ -103,13 +119,13 @@ export const families: MovementFamily[] = [
   },
   {
     id: 'unitas-6497-clones',
-    label: 'Unitas/ETA 6497 clones (Seagull ST36 / ST3600)',
-    members: ['seagull-st36'],
-    sharedHandSizes: null,
+    label: 'Unitas/ETA 6497 family (6497-1 / 6498-1 / Seagull ST36)',
+    members: ['eta-6497-1', 'eta-6498-1', 'seagull-st36'],
+    sharedHandSizes: { hour: 2.0, minute: 1.15, second: 0.27 },
     sharedDialFeet: null,
     sharedDiameterMm: 36.6,
     notes:
-      'Large (16.5‴) manual pocket-watch-style movement for 44mm+ "Marina" builds. Small-seconds @9 (6497) or @6 (6498 variant).',
+      'Large (16.5‴) manual movements for 44mm+ "Marina" builds. 6497 = small-seconds @9 (Lépine); 6498 = small-seconds @6 (Savonnette). Seagull ST36 is the budget clone.',
   },
   {
     id: 'seagull-st16',
@@ -123,8 +139,8 @@ export const families: MovementFamily[] = [
   },
   {
     id: 'seiko-vk-mecaquartz',
-    label: 'Seiko/TMI VK mecaquartz (VK63 / VK64)',
-    members: ['seiko-vk63'],
+    label: 'Seiko/TMI VK mecaquartz (VK63 / VK64 / VK67)',
+    members: ['seiko-vk63', 'seiko-vk67'],
     sharedHandSizes: null,
     sharedDialFeet: null,
     sharedDiameterMm: null,
@@ -140,6 +156,126 @@ export const families: MovementFamily[] = [
     sharedDiameterMm: null,
     notes:
       'Sweeping-seconds quartz (hand steps at ~4 Hz for a near-mechanical sweep). Fits some NH-style cases — verify footprint.',
+  },
+  {
+    id: 'seiko-7sxx',
+    label: 'Seiko 7S-series (7S26 / 7S36)',
+    members: ['seiko-7s26', 'seiko-7s36'],
+    sharedHandSizes: { hour: 1.5, minute: 0.9, second: 0.21 },
+    sharedDialFeet: null,
+    sharedDiameterMm: 27.4,
+    notes:
+      'The original SKX / Seiko 5 engine; non-hacking, non-handwinding. Shares the 27.4mm footprint and 1.5/0.9/0.21 hands with the 4R/6R/NH lineage (largely dial/hand-interchangeable).',
+  },
+  {
+    id: 'seiko-4rxx',
+    label: 'Seiko 4R-series (4R34 / 4R35 / 4R36)',
+    members: ['seiko-4r34', 'seiko-4r35', 'seiko-4r36'],
+    sharedHandSizes: { hour: 1.5, minute: 0.9, second: 0.21 },
+    sharedDialFeet: null,
+    sharedDiameterMm: 27.4,
+    notes:
+      'Hacking + hand-winding successor to the 7S; the SRPD / "5 Sports" engine (4R34 is the caller GMT). Unbranded export equivalents are the TMI NH35/NH36/NH34.',
+  },
+  {
+    id: 'seiko-6rxx',
+    label: 'Seiko 6R-series (6R15 / 6R35)',
+    members: ['seiko-6r15', 'seiko-6r35'],
+    sharedHandSizes: { hour: 1.5, minute: 0.9, second: 0.21 },
+    sharedDialFeet: null,
+    sharedDiameterMm: 27.4,
+    notes:
+      'In-house higher-grade Seiko 27.4mm autos (6R35 ≈ 70h reserve). Same footprint/hands as the 4R/NH, but used in OEM Seiko cases.',
+  },
+  {
+    id: 'seiko-nh7x',
+    label: 'Seiko NH7x skeleton (NH70)',
+    members: ['seiko-nh70'],
+    sharedHandSizes: null,
+    sharedDialFeet: null,
+    sharedDiameterMm: 27.4,
+    notes:
+      'Open-worked / skeletonised NH-family auto (no date). Paired with skeleton dials; shares the NH3x footprint and stem.',
+  },
+  {
+    id: 'miyota-91xx',
+    label: 'Miyota 91xx premium (9100)',
+    members: ['miyota-9100'],
+    sharedHandSizes: null,
+    sharedDialFeet: null,
+    sharedDiameterMm: 30.2,
+    notes:
+      'Premium 28,800 multifunction (power-reserve + day + month + 24h + date) on a larger 30.2mm footprint than the 90xx three-handers.',
+  },
+  {
+    id: 'miyota-6pxx',
+    label: 'Miyota 6Pxx quartz moonphase (6P00)',
+    members: ['miyota-6p00'],
+    sharedHandSizes: null,
+    sharedDialFeet: null,
+    sharedDiameterMm: 23.3,
+    notes:
+      'Multifunction quartz with day, date, 24-hour and MOONPHASE. A popular budget moonphase platform in microbrands.',
+  },
+  {
+    id: 'miyota-osxx',
+    label: 'Miyota OS-series quartz chronographs (OS20)',
+    members: ['miyota-os20'],
+    sharedHandSizes: null,
+    sharedDialFeet: null,
+    sharedDiameterMm: 30.8,
+    notes:
+      'Inexpensive quartz chronographs (small running seconds + central chrono hand). Very common in affordable chrono homages.',
+  },
+  {
+    id: 'miyota-quartz',
+    label: 'Miyota basic quartz (2035)',
+    members: ['miyota-2035'],
+    sharedHandSizes: null,
+    sharedDialFeet: ['7:00', '11:00'],
+    sharedDiameterMm: null,
+    notes:
+      'The ubiquitous low-cost 3-hand quartz. Rectangular movement; feetless aftermarket dials are common.',
+  },
+  {
+    id: 'seagull-st25xx',
+    label: 'Seagull ST25xx multifunction (ST2502 / ST2528)',
+    members: ['seagull-st2502', 'seagull-st2528'],
+    sharedHandSizes: null,
+    sharedDialFeet: null,
+    sharedDiameterMm: 30.4,
+    notes:
+      'Tianjin Seagull multifunction autos on the ST25 base. ST2502 = open-heart flywheel; ST2528 = small-seconds + big date + MOONPHASE.',
+  },
+  {
+    id: 'ronda-7xx',
+    label: 'Ronda 7xx quartz multifunction (706.B)',
+    members: ['ronda-706b'],
+    sharedHandSizes: null,
+    sharedDialFeet: null,
+    sharedDiameterMm: 23.9,
+    notes:
+      'Swiss multifunction quartz; the 706.B adds a MOONPHASE plus day/date by hand. Smaller hand bores than the mechanicals.',
+  },
+  {
+    id: 'peseux-7001',
+    label: 'Peseux / ETA 7001 (7001)',
+    members: ['eta-7001'],
+    sharedHandSizes: null,
+    sharedDialFeet: null,
+    sharedDiameterMm: 23.3,
+    notes:
+      'Thin (2.5mm) hand-wound with small-seconds at 6 — a favourite for slim dress builds.',
+  },
+  {
+    id: 'dixmont-dgxx',
+    label: 'Dixmont Guangzhou DG2813 (DG2813)',
+    members: ['dixmont-dg2813'],
+    sharedHandSizes: null,
+    sharedDialFeet: null,
+    sharedDiameterMm: 26.0,
+    notes:
+      'Very inexpensive Chinese auto on a Miyota-8200-style base (NOT a 2824 clone). Widely used in open-heart/skeleton homages with feetless dials.',
   },
 ];
 

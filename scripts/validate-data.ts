@@ -174,11 +174,14 @@ for (const f of families) {
 }
 
 // ── Family member hand sizes must not contradict the family (build-ruining) ───
+// Tolerance mirrors lib/fitment HAND_BORE_TOL_MM: 0.89≈0.90 rounding is fine,
+// but a genuinely different bore (≥ the next size) is flagged.
+const HAND_BORE_TOL = 0.02;
 function handMismatch(a: HandSizes, b: HandSizes): string | null {
   for (const key of ['hour', 'minute', 'second'] as const) {
     const av = a[key];
     const bv = b[key];
-    if (av != null && bv != null && Math.abs(av - bv) > 1e-9) {
+    if (av != null && bv != null && Math.abs(av - bv) > HAND_BORE_TOL + 1e-9) {
       return `${key} bore ${bv} ≠ family ${av}`;
     }
   }

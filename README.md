@@ -211,8 +211,11 @@ scripts/      validate-data.ts · check-images.ts
 
 - **Phase 0 — Scaffold & contracts** ✅ — types, zod schemas, `cost.ts` +
   `fitment.ts` (tested), data validator, CI, Vite/Pages config.
-- **Phase 1 — Seed data** ✅ — full 25-caliber Section-7 dataset, 13 families,
-  starter parts. Validator green; `dataConfidence` flags set honestly.
+- **Phase 1 — Seed data** ✅ — typed, validated dataset: **54 movements /
+  25 families / 15 parts**, sourced from manufacturer technical sheets, Caliber
+  Corner and WatchBase (every record cites its `references`; `dataConfidence`
+  set honestly). Includes moonphase calibers (Miyota 6P00, Ronda 706.B, Valjoux
+  7751, Seagull ST2528). Ongoing — more get added over time.
 - **Phase 2 — Catalog** ✅ — faceted filters + Fuse search + URL-as-state +
   sortable card grid + schematic placeholders + sticky compare bar.
 - **Phase 3 — Detail + Compare** ✅ — grouped spec sheet, cost glyphs,
