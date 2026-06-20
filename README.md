@@ -211,14 +211,15 @@ scripts/      validate-data.ts · check-images.ts
 
 - **Phase 0 — Scaffold & contracts** ✅ — types, zod schemas, `cost.ts` +
   `fitment.ts` (tested), data validator, CI, Vite/Pages config.
-- **Phase 1 — Seed data** ✅ — typed, validated dataset: **126 movements /
-  56 families / 15 parts**, sourced from manufacturer technical sheets, Caliber
+- **Phase 1 — Seed data** ✅ — typed, validated dataset: **147 movements /
+  72 families / 15 parts**, sourced from manufacturer technical sheets, Caliber
   Corner and WatchBase (every record cites its `references`; `dataConfidence`
-  set honestly). Spans Swiss/Japanese/Chinese/Russian makers, moonphase, GMT,
-  chronograph, power-reserve and vintage/restoration calibers. The round-2…4
-  batches (`movements.batch2.ts` … `movements.batch4.ts`) were compiled from
-  research → adversarial-verify agent workflows. Ongoing — more get added over
-  time.
+  set honestly). Spans Swiss/Japanese/Chinese/Russian makers (incl. Orient,
+  Vostok, Poljot, Seagull, Ronda) and every movement type — automatic, manual,
+  quartz, mecaquartz, solar, kinetic — across moonphase, GMT, chronograph,
+  power-reserve, alarm and vintage/restoration calibers. The round-2…5 batches
+  (`movements.batch2.ts` … `movements.batch5.ts`) were compiled from research →
+  adversarial-verify agent workflows. Ongoing — more get added over time.
 - **Phase 2 — Catalog** ✅ — faceted filters + Fuse search + URL-as-state +
   sortable card grid + schematic placeholders + sticky compare bar.
 - **Phase 3 — Detail + Compare** ✅ — grouped spec sheet, cost glyphs,
