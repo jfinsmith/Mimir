@@ -2,10 +2,12 @@ import { useEffect, useRef, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import type { Build, Part, PartCategory } from '@/types';
 import { movements, movementsById, parts, partsById } from '@/data';
-import { evaluateFit } from '@/lib/fitment';
+import { FIT_STATUS_LABEL, type FitStatus } from '@/lib/fitment';
 import {
+  canUsePart,
   computeBuildChecks,
   missingPieces,
+  partOptionsForSlot,
   rollupStatus,
   runningCost,
   type CheckStatus,
@@ -41,6 +43,16 @@ const OVERALL_LABEL: Record<CheckStatus, string> = {
   warn: 'Buildable with caveats',
   fail: 'Has blocking conflicts',
   unknown: 'Incomplete',
+};
+
+// Compact status glyph shown inline in the part dropdowns.
+const FIT_GLYPH: Record<FitStatus, string> = {
+  direct: '✓',
+  'with-spacer': '+',
+  'needs-modification': '✎',
+  'check-clearance': '?',
+  incompatible: '✕',
+  unknown: '·',
 };
 
 function newBuild(): Build {
@@ -98,20 +110,26 @@ export function BuildPlanner() {
     }
   }, [presetMovement, editingId]);
 
+  const movement = draft.movementId
+    ? (movementsById[draft.movementId] ?? null)
+    : null;
+
   const setMovement = (id: string) =>
     setDraft((d) => ({ ...d, movementId: id || null }));
 
   const setPart = (slot: PartCategory, id: string) =>
     setDraft((d) => {
+      // Defense-in-depth: never store a part that is certainly incompatible
+      // with the current movement (the dropdown also disables these options).
+      if (id) {
+        const p = partsById[id];
+        if (p && !canUsePart(movement, p)) return d;
+      }
       const next = { ...d.parts };
       if (id) next[slot] = id;
       else delete next[slot];
       return { ...d, parts: next };
     });
-
-  const movement = draft.movementId
-    ? (movementsById[draft.movementId] ?? null)
-    : null;
   const resolvedParts: Partial<Record<PartCategory, Part>> = {};
   for (const slot of SLOTS) {
     const id = draft.parts[slot];
@@ -194,30 +212,81 @@ export function BuildPlanner() {
           </Slot>
 
           {SLOTS.map((slot) => {
-            const opts = parts.filter((p) => p.category === slot);
+            const candidates = parts.filter((p) => p.category === slot);
+            const options = partOptionsForSlot(movement, candidates);
             const selectedId = draft.parts[slot] ?? '';
-            const part = selectedId ? partsById[selectedId] : undefined;
-            const verdict =
-              movement && part ? evaluateFit(movement, part) : undefined;
+            const selected = options.find((o) => o.part.id === selectedId);
+            const selectedBlocked = selected?.blocked ?? false;
+            const blocked = options.filter((o) => o.blocked);
             return (
               <Slot key={slot} label={PART_CATEGORY_LABEL[slot]}>
                 <select
                   aria-label={PART_CATEGORY_LABEL[slot]}
                   value={selectedId}
                   onChange={(e) => setPart(slot, e.target.value)}
-                  className="w-full rounded border border-border bg-bg px-2 py-1.5 text-sm"
+                  className={`w-full rounded border bg-bg px-2 py-1.5 text-sm ${
+                    selectedBlocked
+                      ? 'border-fit-incompatible'
+                      : 'border-border'
+                  }`}
                 >
                   <option value="">— none —</option>
-                  {opts.map((o) => (
-                    <option key={o.id} value={o.id}>
-                      {o.name}
+                  {options.map((o) => (
+                    <option
+                      key={o.part.id}
+                      value={o.part.id}
+                      disabled={o.blocked}
+                    >
+                      {o.verdict ? `${FIT_GLYPH[o.verdict.status]} ` : ''}
+                      {o.part.name}
+                      {o.verdict
+                        ? ` — ${FIT_STATUS_LABEL[o.verdict.status]}`
+                        : ''}
                     </option>
                   ))}
                 </select>
-                {verdict && (
-                  <div className="mt-1">
-                    <FitBadge verdict={verdict} showDetails />
+
+                {selectedBlocked ? (
+                  <div className="mt-1 flex items-start justify-between gap-2 rounded border border-fit-incompatible/50 bg-fit-incompatible/10 px-2 py-1 text-xs text-fit-incompatible">
+                    <span>
+                      Incompatible with {movement?.caliber}
+                      {selected?.verdict?.reasons[0]
+                        ? ` — ${selected.verdict.reasons[0]}`
+                        : ''}
+                    </span>
+                    <button
+                      type="button"
+                      onClick={() => setPart(slot, '')}
+                      className="shrink-0 font-medium underline"
+                    >
+                      Remove
+                    </button>
                   </div>
+                ) : (
+                  selected?.verdict && (
+                    <div className="mt-1">
+                      <FitBadge verdict={selected.verdict} showDetails />
+                    </div>
+                  )
+                )}
+
+                {movement && blocked.length > 0 && (
+                  <details className="mt-1 text-xs text-ink-muted">
+                    <summary className="cursor-pointer select-none">
+                      {blocked.length} incompatible{' '}
+                      {blocked.length === 1 ? 'option' : 'options'} disabled
+                    </summary>
+                    <ul className="mt-1 space-y-0.5 pl-3">
+                      {blocked.map((o) => (
+                        <li key={o.part.id}>
+                          <span className="text-ink">{o.part.name}</span>
+                          {o.verdict?.reasons[0]
+                            ? ` — ${o.verdict.reasons[0]}`
+                            : ''}
+                        </li>
+                      ))}
+                    </ul>
+                  </details>
                 )}
               </Slot>
             );

@@ -8,7 +8,12 @@
 // ─────────────────────────────────────────────────────────────────────────────
 
 import type { Movement, Part, PartCategory } from '@/types';
-import { evaluateFit, type FitStatus } from './fitment';
+import {
+  compareFitStatus,
+  evaluateFit,
+  type FitStatus,
+  type FitVerdict,
+} from './fitment';
 
 export type CheckStatus = 'ok' | 'warn' | 'fail' | 'unknown';
 
@@ -46,6 +51,46 @@ export function rollupStatus(checks: BuildCheck[]): CheckStatus {
     (worst, c) => (SEVERITY[c.status] > SEVERITY[worst] ? c.status : worst),
     'ok',
   );
+}
+
+// ── Part-picker gating ───────────────────────────────────────────────────────
+// A part is "blocked" only when the fitment engine is CERTAIN it cannot work with
+// the chosen movement (status 'incompatible' — a hard bore/opening/depth/crown/
+// stem/feet conflict). "needs-modification" and "check-clearance" are NOT blocked:
+// the builder may choose to proceed at their own risk.
+
+export interface PartOption {
+  part: Part;
+  verdict: FitVerdict | null; // null until a movement is chosen
+  blocked: boolean; // true ⇔ certainly incompatible with the movement
+}
+
+/**
+ * Returns the candidate parts for a slot, each annotated with its fit verdict
+ * against `movement` and sorted best-fit-first. With no movement chosen, every
+ * option is selectable (fit is unknowable) and the list is alphabetical.
+ */
+export function partOptionsForSlot(
+  movement: Movement | null,
+  candidates: Part[],
+): PartOption[] {
+  const opts: PartOption[] = candidates.map((part) => {
+    const verdict = movement ? evaluateFit(movement, part) : null;
+    return { part, verdict, blocked: verdict?.status === 'incompatible' };
+  });
+  return opts.sort((a, b) => {
+    if (a.verdict && b.verdict) {
+      const c = compareFitStatus(a.verdict.status, b.verdict.status);
+      if (c !== 0) return c;
+    }
+    return a.part.name.localeCompare(b.part.name);
+  });
+}
+
+/** Guard: may this part be used with this movement? (false ⇔ certainly incompatible) */
+export function canUsePart(movement: Movement | null, part: Part): boolean {
+  if (!movement) return true;
+  return evaluateFit(movement, part).status !== 'incompatible';
 }
 
 const TOL = 0.2;

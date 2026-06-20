@@ -1,7 +1,9 @@
 import { describe, it, expect } from 'vitest';
 import {
+  canUsePart,
   computeBuildChecks,
   missingPieces,
+  partOptionsForSlot,
   rollupStatus,
   runningCost,
   type ResolvedBuild,
@@ -13,6 +15,7 @@ const nh35 = makeMovement({
   caliber: 'NH35',
   family: 'seiko-nh3x',
   casingDiameterMm: 29.4,
+  handSizes: { hour: 1.5, minute: 0.9, second: 0.21 },
 });
 
 describe('computeBuildChecks', () => {
@@ -82,6 +85,51 @@ describe('runningCost', () => {
       },
     };
     expect(runningCost(build).total).toBe(70);
+  });
+});
+
+describe('partOptionsForSlot / canUsePart', () => {
+  // Seiko-bore hands (fit NH35) vs Miyota-bore hands (1.00 minute → incompatible).
+  const seikoHands = makePart({
+    id: 'hands-seiko',
+    name: 'Seiko hands',
+    category: 'hands',
+    handBore: { hour: 1.5, minute: 0.9, second: 0.21 },
+  });
+  const miyotaHands = makePart({
+    id: 'hands-miyota',
+    name: 'Miyota hands',
+    category: 'hands',
+    handBore: { hour: 1.5, minute: 1.0, second: 0.17 },
+  });
+
+  it('marks a certainly-incompatible part as blocked', () => {
+    const opts = partOptionsForSlot(nh35, [miyotaHands, seikoHands]);
+    const miyota = opts.find((o) => o.part.id === 'hands-miyota');
+    const seiko = opts.find((o) => o.part.id === 'hands-seiko');
+    expect(miyota?.blocked).toBe(true); // 1.00mm minute bore ≠ NH35 0.90mm
+    expect(seiko?.blocked).toBe(false);
+  });
+
+  it('sorts best-fit first and blocked (incompatible) last', () => {
+    const opts = partOptionsForSlot(nh35, [miyotaHands, seikoHands]);
+    expect(opts[0]?.part.id).toBe('hands-seiko');
+    expect(opts[opts.length - 1]?.blocked).toBe(true);
+  });
+
+  it('blocks nothing and stays alphabetical when no movement is chosen', () => {
+    const opts = partOptionsForSlot(null, [miyotaHands, seikoHands]);
+    expect(opts.every((o) => !o.blocked && o.verdict === null)).toBe(true);
+    expect(opts.map((o) => o.part.name)).toEqual([
+      'Miyota hands',
+      'Seiko hands',
+    ]);
+  });
+
+  it('canUsePart guards incompatible parts (and allows all with no movement)', () => {
+    expect(canUsePart(nh35, miyotaHands)).toBe(false);
+    expect(canUsePart(nh35, seikoHands)).toBe(true);
+    expect(canUsePart(null, miyotaHands)).toBe(true);
   });
 });
 
