@@ -1,107 +1,188 @@
 # MIMIR — Watch Movement Catalog & Fitment Engine
 
-A client-side web app for hobbyist watchmakers. Browse a searchable, filterable
-catalog of watch **movements**, read each one's full spec sheet and cost tier,
-and use the **Fitment Engine** to find which parts (cases, dials, hands,
-crystals, stems/crowns, spacers) actually fit a chosen movement — with the
-specific reason for every verdict.
+**▶ Live site: https://jfinsmith.github.io/Mimir/**
 
-> ⚠️ **Verify before you buy.** Data is community-sourced and may contain
-> errors. Every spec carries a confidence flag; treat `medium`/`low` values as
-> starting points and confirm critical dimensions against a manufacturer sheet
-> before spending money on parts. MIMIR never guesses a number — unknown fields
-> are `null`.
+[![Deploy to GitHub Pages](https://github.com/jfinsmith/Mimir/actions/workflows/deploy.yml/badge.svg)](https://github.com/jfinsmith/Mimir/actions/workflows/deploy.yml)
 
-This repo is currently at **Phase 0** (scaffold + contracts). See
-[Build phases](#build-phases).
+MIMIR is a free, fast, **no-login** web app for hobbyist watchmakers and modders.
+Browse a searchable catalog of watch **movements** (calibers), read each one's
+full spec sheet, and use the **Fitment Engine** to find out which parts — cases,
+dials, hands, crystals, stems/crowns, spacers — actually fit a given movement,
+with a specific reason for every verdict. Then plan a complete build and get
+**precise search links** to go buy the right parts.
+
+It runs entirely in your browser. There's no account, no backend, no tracking,
+and nothing is scraped — every number is transcribed from a real source or left
+blank.
+
+> ### ⚠️ Verify before you buy
+> Data is community-sourced and can contain errors. Every spec carries a
+> **confidence flag**; treat `medium`/`low` values as starting points and confirm
+> the critical dimensions against a manufacturer sheet or the seller's listing
+> before spending money. **MIMIR never guesses a number** — unknown fields are
+> shown blank, never invented.
 
 ---
 
-## Tech stack
+## Why it exists
 
-- **React 18 + TypeScript (strict)** + **Vite**
-- **react-router-dom** (BrowserRouter + GitHub Pages SPA shim)
-- **Tailwind CSS** with design tokens centralized as CSS variables
-- **fuse.js** for fuzzy search (wired in Phase 2)
-- **zod** schemas + a `validate:data` script that fails the build on bad data
-- **Vitest** + Testing Library — unit tests are mandatory for `lib/fitment.ts`,
-  `lib/cost.ts` and the data validator
+The hardest part of a watch mod or repair isn't choosing a look — it's working
+out **what physically fits**. Will these hands sit on that movement's pinions?
+Will this dial's feet line up? Is the case opening the right diameter? Will the
+date window land at 3 or 4:30? Getting one of these wrong means a wasted order
+and a part that doesn't fit.
 
-## Quick start
+MIMIR encodes those compatibility rules so you can check them in seconds instead
+of cross-referencing forum threads and spec PDFs — and it's honest about what it
+doesn't know.
+
+## What's inside
+
+- **153 movements / 74 movement families / 101 parts** and growing.
+- Swiss, Japanese, Chinese and Russian makers (Seiko, Miyota, ETA, Sellita,
+  Seagull, Ronda, Orient, Vostok, Poljot, and more).
+- Every movement type: **automatic, manual, quartz, mecaquartz, solar, kinetic** —
+  across moonphase, GMT, chronograph, power-reserve, alarm, day-date and
+  vintage/restoration calibers.
+- Sourced modding parts (cases, dials, hands, crystals, bezels, stems/crowns,
+  spacers, gaskets, rotors) from namokiMODS, DLW, CrystalTimes, Lucius Atelier,
+  Otto Frei, Esslinger, Cousins and others — each tagged with the movements/
+  families it fits.
+
+---
+
+## How to use it
+
+### 1. Browse & filter the catalog
+The home page is the **catalog**. Search by caliber or alias (e.g. `NH35`,
+`7S26`, `2824`) and narrow with faceted filters — **make** (Seiko, Miyota…),
+type, complication, diameter, beat rate, hacking/hand-winding, date position,
+cost tier. Incompatible filter combinations grey out, and the URL updates as you
+filter, so any search is shareable/bookmarkable.
+
+### 2. Read a movement
+Open any movement for its full **spec sheet**: dimensions, hand-bore sizes, dial
+feet, crown/date positions, performance (beat rate, power reserve, jewels),
+price range and a **cost tier** (`$`–`$$$$$`, or "Unknown" when there's no honest
+price). A **confidence flag** marks anything not fully verified.
+
+### 3. See which parts fit (the Fitment Engine)
+Every movement page lists **"Parts that fit this movement"**, each with a verdict
+you can filter by:
+
+| Verdict | Meaning |
+| --- | --- |
+| **Direct fit** | Drops in — bores/footprint/feet all match. |
+| **Fits with spacer** | Works, but needs a movement ring/spacer. |
+| **Needs modification** | Possible with work (e.g. remove dial feet, align date). |
+| **Check clearance** | Likely OK, but a key spec is unknown — verify first. |
+| **Incompatible** | A hard conflict (e.g. wrong hand bore, opening too small). |
+
+Hover any badge for the **exact reason** (e.g. *"Minute bore mismatch: hands need
+0.90 mm but the 8215 minute pinion is 1.00 mm"*).
+
+### 4. Plan a build
+The **Build Planner** lets you pick a movement and a part for each slot. It:
+- **blocks parts that are certainly incompatible** with your movement (they're
+  disabled in the dropdown, with the reason shown),
+- runs live **cross-checks** (movement↔part and part↔part, e.g. dial Ø vs case
+  seat) and rolls them up to a single buildable/blocked status,
+- tracks a **running cost** and lists **missing pieces**,
+- **saves builds** in your browser and exports them as JSON or print.
+
+### 5. Find where to buy
+On movement pages, part cards and each build slot, the **"Where to buy"** row
+gives ready-made, precise searches — your own region's **eBay** (plus sold-price
+comps for movements), the part's listed vendors, and a **Google** fallback —
+built with forced-exact operators so you land on the right item. A
+**"confirm before buying"** checklist surfaces the exact variant details to match
+(hand bores, dial feet, crown position…), and the Build Planner can export a
+whole **shopping list**. Use the **region toggle** in the header (US/UK/EU/AU) to
+target your marketplaces. MIMIR holds no inventory and earns nothing from these
+links.
+
+### 6. Compare & learn
+Add movements to the **compare** tray for a side-by-side table (fitment rows
+first, differences highlighted, shareable URL). The **Learn** page has a glossary
+and explains how the catalog is built and how to read the placeholders.
+
+---
+
+## Data integrity (the rules MIMIR holds itself to)
+
+- **No fabricated numbers.** Every spec is transcribed from a real source or left
+  blank — never guessed.
+- **Honest confidence.** `high` confidence requires cited references; `medium`/
+  `low` flag where to double-check.
+- **Derived, not hand-typed cost tiers**, so a price and its tier can't disagree.
+- **No scraping, no hot-linked images.** The shipped app is fully static; product
+  art is a generated placeholder unless a license-clean image is supplied.
+- **Neutral buy-links.** No affiliate codes, no third-party trackers.
+- A **data validator** fails the build on contradictions (cost-tier drift,
+  quartz/beat-rate mismatches, family hand-size conflicts, dangling references,
+  missing citations, duplicate ids, malformed clock positions).
+
+---
+
+# For developers
+
+A client-side **React 18 + TypeScript (strict) + Vite** app. **react-router-dom**
+(with a GitHub Pages SPA shim), **Tailwind** (design tokens as CSS variables),
+**fuse.js** fuzzy search, **zod** schemas, and **Vitest** + Testing Library
+(unit tests are mandatory for the pure `lib/` engines and the data validator).
+
+## Run it locally
 
 ```bash
 npm install
 npm run dev            # local dev server
-npm test               # run unit tests
-npm run validate:data  # check the dataset for contradictions
-npm run build          # type-check + production build
-npm run check          # lint + validate:data + test + build (everything)
+npm run check          # lint + validate:data + test + build (the full gate)
 ```
 
-## Scripts
-
-| Script                  | What it does                                              |
-| ----------------------- | -------------------------------------------------------- |
-| `npm run dev`           | Vite dev server                                          |
-| `npm run build`         | `tsc -b` type-check, then `vite build` → `dist/`         |
-| `npm run preview`       | Preview the production build                             |
-| `npm test`              | Run all unit tests once                                  |
-| `npm run test:watch`    | Vitest in watch mode                                     |
-| `npm run validate:data` | zod + business-rule validation of the seed data         |
-| `npm run check:images`  | Report which records still use the SVG placeholder       |
-| `npm run lint`          | ESLint                                                   |
-| `npm run format`        | Prettier write                                           |
-| `npm run check`         | lint + validate:data + test + build (the CI gate)        |
-
----
+| Script                  | What it does                                       |
+| ----------------------- | ------------------------------------------------- |
+| `npm run dev`           | Vite dev server                                   |
+| `npm run build`         | `tsc -b` type-check, then `vite build` → `dist/`  |
+| `npm run preview`       | Preview the production build                       |
+| `npm test`              | Run all unit tests once                           |
+| `npm run test:watch`    | Vitest in watch mode                              |
+| `npm run validate:data` | zod + business-rule validation of the dataset     |
+| `npm run check:images`  | Report which records still use the SVG placeholder|
+| `npm run lint`          | ESLint                                            |
+| `npm run format`        | Prettier write                                    |
+| `npm run check`         | lint + validate:data + test + build (CI gate)     |
 
 ## Data model
 
-Defined as TypeScript types in [`src/types/`](src/types/) and mirrored as zod
-schemas in [`src/lib/schema.ts`](src/lib/schema.ts).
+Types live in [`src/types/`](src/types/), mirrored as zod schemas in
+[`src/lib/schema.ts`](src/lib/schema.ts).
 
-- **`Movement`** — a caliber: identity, complications, physical/fitment specs,
-  performance, commerce, provenance. Fitment-critical fields:
-  `casingDiameterMm` (movement Ø **including** its spacer/ring — the number
-  checked against a case opening), `heightWithHandsMm` (top of the hand stack —
-  checked against case depth), `handSizes`, `dialFeet`, `crownPositions`,
-  `dateWindowPosition`.
+- **`Movement`** — a caliber. Fitment-critical fields: `casingDiameterMm`
+  (movement Ø **incl.** spacer/ring — checked against a case opening),
+  `heightWithHandsMm` (top of the hand stack — checked against case depth),
+  `handSizes`, `dialFeet`, `crownPositions`, `dateWindowPosition`.
 - **`Part`** — a case / dial / hands / crystal / stem-crown / spacer-ring /
-  bezel / gasket / rotor. Only the fields relevant to its `category` populate.
-  `fitsMovements` / `fitsFamilies` are the strongest fit signal.
-- **`MovementFamily`** — the fitment backbone. Shared facts (hand sizes, dial
-  feet, footprint) live on the family so a part can target a family and inherit
-  to every member.
+  bezel / gasket / rotor. Only fields relevant to its `category` populate;
+  `fitsMovements`/`fitsFamilies` are the strongest fit signal.
+- **`MovementFamily`** — the fitment backbone: shared hand sizes / dial feet /
+  footprint live on the family so a part can target a family and inherit to
+  every member.
 
-### Canonical conventions (enforced — see Section 8 of the brief)
+Conventions: hand sizes are always stored hour / minute / second in mm;
+`diameterMm` (bare) ≠ `casingDiameterMm` (with ring); `heightMm` (no hands) ≠
+`heightWithHandsMm`; cost tiers are derived (see below); clock positions are
+`'3'`, `'4.5'`, `'10:30'`, … and format-validated.
 
-- **Hand sizes are always stored hour / minute / second, in mm.** Normalize on
-  ingest (retailers list these every which way).
-- **`diameterMm`** = bare movement Ø. **`casingDiameterMm`** = incl. ring/spacer
-  (this is what the fitment engine compares to a case opening). Don't conflate.
-- **`heightMm`** (no hands) vs **`heightWithHandsMm`** (hand stack) are distinct;
-  case-depth checks use the latter.
-- **Cost tier is derived, never hand-entered** (see below).
-- Clock positions are `'3'`, `'4.5'`, `'5:30'`, `'10:30'`, … and are
-  format-validated.
+### Cost tiers ($–$$$$$)
 
-### Cost tiers ($ – $$$$$)
+[`src/lib/cost.ts`](src/lib/cost.ts) maps a price **midpoint** to a tier
+(lower-inclusive bands). `null` = price unknown (shown as "Unknown").
 
-`lib/cost.ts` maps a price **midpoint** to a 1–5 tier (lower-inclusive bands):
-
-| Tier  | Midpoint (USD) |
-| ----- | -------------- |
-| `$`   | `< 25`         |
-| `$$`  | `25 – 60`      |
-| `$$$` | `60 – 150`     |
-| `$$$$`| `150 – 400`    |
-| `$$$$$`| `≥ 400`       |
-
-The tier is **cached** on each movement for fast filtering, and
-`validate:data` fails the build if a cached `costTier` ≠ `priceToTier(...)`.
-Bands are a single tunable constant (`COST_BANDS`).
-
----
+| Tier | Midpoint (USD) | Tier | Midpoint (USD) |
+| --- | --- | --- | --- |
+| `$` | `< 25` | `$$$$` | `150 – 400` |
+| `$$` | `25 – 60` | `$$$$$` | `≥ 400` |
+| `$$$` | `60 – 150` | | |
 
 ## How the fitment engine works
 
@@ -110,158 +191,90 @@ pure function returning `{ status, reasons[], warnings[], requiredExtras[] }`.
 
 - **Statuses:** `direct` · `with-spacer` · `needs-modification` ·
   `check-clearance` · `incompatible` · `unknown`.
-- **Strongest signal first:** an explicit `fitsMovements`/`fitsFamilies` listing
-  starts at `direct`, then dimensional checks can downgrade it.
-- **Combining precedence (most severe wins):**
-  `incompatible > needs-modification > with-spacer > check-clearance > direct`.
-- Every non-trivial verdict carries a **specific reason** (e.g. _"Minute bore
-  mismatch: hands need 0.90mm but 8215 minute pinion is 1.00mm"_).
-- Missing **optional** data becomes a non-blocking **warning**; missing
-  **primary** data (e.g. hand bores for a hand set) yields `check-clearance`.
+- An explicit `fitsMovements`/`fitsFamilies` listing starts at `direct`;
+  dimensional checks can downgrade it.
+- **Most severe wins:** `incompatible > needs-modification > with-spacer >
+  check-clearance > direct`.
+- Tolerances: hour/minute bores match within ±0.02 mm; seconds ±0.02 mm; case
+  opening within ±0.2 mm is a snug direct fit.
 
-Tolerances: hour/minute bores must match exactly; seconds within ±0.02mm; case
-opening within ±0.2mm counts as a snug direct fit.
+The Build Planner's blocking and the per-slot pickers are built on the pure
+helpers `partOptionsForSlot` / `canUsePart` in [`src/lib/build.ts`](src/lib/build.ts).
 
----
+## Buy-links (sourcing)
 
-## Buying the right part (sourcing links)
-
-MIMIR can't sell parts (it's static), so instead it turns each record into
-**precise, copy-ready searches and deep-links** that land you on the correct
-item. [`src/lib/buyLinks.ts`](src/lib/buyLinks.ts) is a pure module (like
-`cost.ts`/`fitment.ts`):
-
-- `buildBuyLinks(movement | part, region)` → an ordered list of `{label, url,
-  kind, copyString}` for the item's own `commonVendors`, eBay (+ sold-price
-  comps for movements), and a Google fallback — rendered by `<VendorLinks>` on
-  movement/part detail, "parts that fit", and every Build Planner slot.
-- `discriminatorChecklist(category, movement)` surfaces the fields you must
-  confirm to get the right **variant** (hand bores, dial feet, crown position,
-  stem part no.); unknown fields show as "verify", never a guess.
-- The Build Planner exports a **shopping list** (one query per slot + "open
-  each").
-
-Principles (enforced): **forced-exact** queries (quoted strings, `site:`,
-`-replica -fake -clone`, alias `OR`-groups), one `encodeURIComponent` pass,
-search-URLs over fragile product-URLs, and a **region toggle** (US/UK/EU/AU) in
-the header. Only *verified* retailer URL schemes emit native deep-links; anything
-unverified degrades to a precise Google `site:` search. Links are **neutral**
-(no affiliate, no trackers) with a single `withAffiliate()` seam for the future;
-whole-watch sources are never offered for a loose part. Every row carries a
-"verify before buying" caution.
+[`src/lib/buyLinks.ts`](src/lib/buyLinks.ts) is a pure module that turns a record
++ region into copy-ready searches/deep-links: `buildBuyLinks(item, region)`,
+`buildShoppingList(build, region)`, `discriminatorChecklist(category, movement)`.
+Forced-exact queries (quoted strings, `site:`, `-replica -fake -clone`, alias
+`OR`-groups), one `encodeURIComponent` pass, durable search-URLs over fragile
+product-URLs. Only **verified** retailer schemes emit native deep-links; the rest
+degrade to a precise Google `site:` search. Region/marketplace config is in
+[`src/data/marketplaces.ts`](src/data/marketplaces.ts); the vendor registry in
+[`src/data/vendors.ts`](src/data/vendors.ts). Links are neutral today, with a
+single `withAffiliate()` seam to monetize later (then add `rel="sponsored nofollow"`
++ FTC disclosure).
 
 ## Adding a movement or part
 
 1. Add a typed object to [`src/data/movements.ts`](src/data/movements.ts) or
-   [`src/data/parts.ts`](src/data/parts.ts). TypeScript will flag any missing
-   field.
-2. **Transcribe numbers from a real source** (see _Sources_ below). If you don't
-   have a verified value, set it to `null` — never guess.
+   [`src/data/parts.ts`](src/data/parts.ts) (TS flags missing fields).
+2. **Transcribe numbers from a real source.** No verified value → `null`.
 3. Set `dataConfidence` honestly (`high` requires non-empty `references`).
 4. For a new movement, make sure its `family` exists in
-   [`src/data/families.ts`](src/data/families.ts) and that the family lists it in
-   `members` with matching `sharedHandSizes`.
-5. Run `npm run validate:data` — it fails on cost-tier drift, quartz/beat-rate
-   mismatches, family hand-size contradictions, dangling references, missing
-   citations, duplicate ids and malformed clock positions.
+   [`src/data/families.ts`](src/data/families.ts) and lists it in `members` with
+   matching `sharedHandSizes`.
+5. Run `npm run validate:data` (it must pass), then `npm run check`.
 
-### Trusted sources (verify, don't scrape)
+**Trusted sources:** manufacturer sheets (Miyota, Ronda, Sellita, Seiko/TMI) →
+Caliber Corner → WatchBase → Ranfft → parts-retailer spec fields. A single
+retailer listing is `medium`; promote to `high` only when ≥2 independent sources
+agree or a manufacturer PDF confirms.
 
-Manufacturer sheets (Miyota, Ronda, Sellita, Seiko/TMI) → Caliber Corner →
-WatchBase → Ranfft → parts-retailer spec fields. Treat a single retailer listing
-as `medium`; promote to `high` only when ≥2 independent sources agree or a
-manufacturer PDF confirms. **The shipped app is fully static — nothing is
-scraped at runtime.**
+## Images — copyright-safe
 
----
-
-## Images — copyright-safe strategy
-
-- Every record renders a generated **SVG placeholder** by default (Phase 6).
-- Real images are optional via the `images: ImageRef[]` field, which carries
-  `credit` / `sourceUrl` / `license` and renders an attribution caption.
-- **Do not** hot-link or commit scraped retailer images. Drop your own
-  license-clean files in `public/movements/<id>/` and fill the `images` field.
-- `npm run check:images` reports which records still use a placeholder.
-
----
+Records render a generated **SVG placeholder** by default. Real images are
+optional via the `images: ImageRef[]` field (`credit`/`sourceUrl`/`license` →
+attribution caption). Don't hot-link or commit scraped photos; drop license-clean
+files in `public/movements/<id>/`. `npm run check:images` reports placeholders.
 
 ## Deployment (GitHub Pages)
 
-A workflow at [`.github/workflows/deploy.yml`](.github/workflows/deploy.yml)
-runs the quality gates (lint, validate:data, test, build) and deploys `dist/` to
-Pages on every push to `main`. Enable Pages → "GitHub Actions" in repo settings.
+[`.github/workflows/deploy.yml`](.github/workflows/deploy.yml) runs the quality
+gates and deploys `dist/` to Pages on every push to `main` (Pages source =
+"GitHub Actions").
 
-### ⚠️ The base-path gotcha (read this before switching domains)
+### ⚠️ The base-path gotcha
 
-The `base` is the **#1 thing that breaks** when you move hosting. It lives in
-**one clearly-commented constant** in
-[`vite.config.ts`](vite.config.ts):
+The Pages base path is the **#1 thing that breaks** on a hosting/domain change.
+It's one commented constant in [`vite.config.ts`](vite.config.ts):
 
 ```ts
 const BASE_PATH = '/Mimir/'; // ← change ONLY this line (must match the repo name's case)
 ```
 
-- **Project Pages** (`https://USER.github.io/REPO_NAME/`) → `'/REPO_NAME/'`
-- **Custom domain at the root** (`https://example.com/`) → `'/'`
+- **Project Pages** (`https://USER.github.io/REPO/`) → `'/REPO/'`
+  (case-sensitive — must match the repo name exactly).
+- **Custom domain at the root** → `'/'`, and also set `pathSegmentsToKeep = 0`
+  in [`public/404.html`](public/404.html) (the SPA deep-link shim).
 
 The router reads the same value via `import.meta.env.BASE_URL`, so routing stays
-in sync automatically. **If you switch to a custom domain, also set**
-`pathSegmentsToKeep = 0` in [`public/404.html`](public/404.html) (the SPA
-deep-link shim — it lets deep links survive a hard refresh on Pages).
-
-`public/CNAME` is domain-specific; create it yourself when you point a custom
-domain at the site (a single line containing your domain).
-
----
+in sync automatically.
 
 ## Project structure
 
 ```
 src/
-  types/      Movement, Part, MovementFamily, Build, enums, common value objects
-  data/       families.ts · movements.ts · parts.ts · glossary.ts (typed seed)
-  lib/        cost.ts · fitment.ts · schema.ts  (+ *.test.ts)
+  types/      Movement, Part, MovementFamily, Build, enums
+  data/       families · movements(.batchN) · parts(.batch1) · marketplaces · vendors · glossary
+  lib/        cost · fitment · build · buyLinks · filters · schema  (+ *.test.ts)
   pages/      Catalog · MovementDetail · Compare · Parts · BuildPlanner · Learn · About · NotFound
-  hooks/      useCatalogState · useCompare · useBuilds
-  components/ FilterPanel · MovementCard · SpecSheet · FitBadge · CompareBar · …
-  test/       setup.ts · factories.ts  (hermetic fixtures)
-  styles/     index.css (design tokens)
+  hooks/      useCatalogState · useCompare · useBuilds · useRegion
+  components/ FilterPanel · MovementCard · SpecSheet · FitBadge · VendorLinks · …
 scripts/      validate-data.ts · check-images.ts
 .github/workflows/  ci.yml · deploy.yml
 ```
 
----
-
-## Build phases
-
-- **Phase 0 — Scaffold & contracts** ✅ — types, zod schemas, `cost.ts` +
-  `fitment.ts` (tested), data validator, CI, Vite/Pages config.
-- **Phase 1 — Seed data** ✅ — typed, validated dataset: **153 movements /
-  74 families / 101 parts** (86 sourced modding parts in `parts.batch1.ts` —
-  cases, dials, hands, crystals, bezels, stems/crowns, spacers, gaskets, rotors
-  from namokiMODS / DLW / CrystalTimes / Lucius Atelier / Otto Frei / Esslinger /
-  Cousins — each carrying `fitsFamilies` so fitment + the Build Planner's
-  incompatible-blocking work out of the box), sourced from manufacturer technical
-  sheets, Caliber
-  Corner and WatchBase (every record cites its `references`; `dataConfidence`
-  set honestly). Spans Swiss/Japanese/Chinese/Russian makers (incl. Orient,
-  Vostok, Poljot, Seagull, Ronda) and every movement type — automatic, manual,
-  quartz, mecaquartz, solar, kinetic — across moonphase, GMT, chronograph,
-  power-reserve, alarm and vintage/restoration calibers. `costTier` is nullable:
-  movements with no honest loose price (e.g. Seiko 8L35) show as "Unknown" and
-  are filterable as such, rather than being excluded. The round-2…6 batches
-  (`movements.batch2.ts` … `movements.batch6.ts`) were compiled from research →
-  adversarial-verify agent workflows. Ongoing — more get added over time.
-- **Phase 2 — Catalog** ✅ — faceted filters + Fuse search + URL-as-state +
-  sortable card grid + schematic placeholders + sticky compare bar.
-- **Phase 3 — Detail + Compare** ✅ — grouped spec sheet, cost glyphs,
-  confidence flags, references; side-by-side compare (URL-shareable, diff
-  highlighting, fitment rows first).
-- **Phase 4 — Fitment in the UI** ✅ — "Parts that fit" on each movement
-  (FitBadge + reasons, filter by status); Parts page with reverse fit-check.
-- **Phase 5 — Build Planner** ✅ — movement + part slots, live cross-check
-  checklist, running cost, missing-pieces, localStorage saves, JSON export, print.
-- **Phase 6 — Learn/About + polish** ✅ — Learn/glossary, methodology page,
-  image-attribution plumbing, route code-splitting, skip-link/aria, deploy config.
-- **Phase 7** _(stretch, not started)_ — Firestore backend for community corrections.
+The catalog and parts are compiled from research → adversarial-verify agent
+workflows and grow over time; contributions that follow the data-integrity rules
+above are welcome.
