@@ -23,7 +23,8 @@ export const families: MovementFamily[] = [
   },
   {
     id: 'miyota-82xx',
-    label: 'Miyota 82xx (8215 / 821A / 8205 / 8200 / 82S7 / 8315)',
+    label:
+      'Miyota 82xx (8215 / 821A / 8205 / 8200 / 82S7 / 8315 / 8245 / 82S5)',
     members: [
       'miyota-8215',
       'miyota-821a',
@@ -31,6 +32,8 @@ export const families: MovementFamily[] = [
       'miyota-8200',
       'miyota-82s7',
       'miyota-8315',
+      'miyota-8245',
+      'miyota-82s5',
     ],
     sharedHandSizes: { hour: 1.5, minute: 1.0, second: 0.17 },
     sharedDialFeet: ['5:30', '10:30'],
@@ -40,18 +43,25 @@ export const families: MovementFamily[] = [
   },
   {
     id: 'miyota-9xxx',
-    label: 'Miyota 9xxx (9015 / 9039 / 9019 / 9132)',
-    members: ['miyota-9015', 'miyota-9039', 'miyota-9019', 'miyota-9132'],
-    sharedHandSizes: { hour: 1.5, minute: 0.9, second: 0.25 },
+    label: 'Miyota 9xxx (9015 / 9039 / 9019 / 9132 / 9075 GMT / 9011)',
+    members: [
+      'miyota-9015',
+      'miyota-9039',
+      'miyota-9019',
+      'miyota-9132',
+      'miyota-9075',
+      'miyota-9011',
+    ],
+    sharedHandSizes: { hour: 1.52, minute: 1.0, second: 0.17 },
     sharedDialFeet: null,
     sharedDiameterMm: 26.0,
     notes:
-      'Thin high-beat (28,800) family. NOT interchangeable with the 82xx — the stem offset differs (≈1.53mm) and hand bores differ (0.90/0.25 vs 1.00/0.17).',
+      'Thin high-beat (28,800) family. Hand bores (1.52/1.00/0.17, per Caliber Corner) are close to the 82xx, but it is NOT interchangeable — the stem offset differs (≈1.53mm). The 9075 is a true traveller GMT.',
   },
   {
     id: 'eta-2824-clones',
     label:
-      'ETA 2824-2 footprint (2824-2 / 2801-2 / 2834-2 / 2836-2 / SW200-1 / SW210-1 / SW220-1 / SW240-1 / ST2130 / PT5000 / STP1-11 / Hangzhou 6300)',
+      'ETA 2824-2 footprint (2824-2 / 2801-2 / 2834-2 / 2836-2 / SW200-1 / SW210-1 / SW216-1 / SW220-1 / SW240-1 / ST2130 / PT5000 / STP1-11 / Hangzhou 6300)',
     members: [
       'eta-2824-2',
       'eta-2801-2',
@@ -59,6 +69,7 @@ export const families: MovementFamily[] = [
       'eta-2836-2',
       'sellita-sw200-1',
       'sellita-sw210-1',
+      'sellita-sw216-1',
       'sellita-sw220-1',
       'sellita-sw240-1',
       'seagull-st2130',
@@ -75,11 +86,12 @@ export const families: MovementFamily[] = [
   {
     id: 'eta-2892-clones',
     label:
-      'ETA 2892-A2 footprint (2892-A2 / 2893-2 GMT / 2895-2 / SW300-1 / SW330-2 / Soprod A10)',
+      'ETA 2892-A2 footprint (2892-A2 / 2893-2 GMT / 2895-2 / 2897 / SW300-1 / SW330-2 / Soprod A10)',
     members: [
       'eta-2892-a2',
       'eta-2893-2',
       'eta-2895-2',
+      'eta-2897',
       'sellita-sw300-1',
       'sellita-sw330-2',
       'soprod-a10',
@@ -92,19 +104,21 @@ export const families: MovementFamily[] = [
   },
   {
     id: 'valjoux-7750-clones',
-    label: 'Valjoux 7750 footprint (7750 / 7751 / 7753 / SW500 / SW510)',
+    label:
+      'Valjoux 7750 footprint (7750 / 7751 / 7753 / 7754 GMT / SW500 / SW510)',
     members: [
       'eta-7750',
       'eta-7751',
       'eta-7753',
+      'eta-7754',
       'sellita-sw500',
       'sellita-sw510',
     ],
-    sharedHandSizes: { hour: 1.5, minute: 0.9, second: 0.25 }, // 7750 verified; 7751/SW500 left null (compatible)
+    sharedHandSizes: { hour: 2.0, minute: 1.2, second: null }, // Caliber Corner: 2.0/1.2 main bores; sub/sweep bores vary
     sharedDialFeet: null,
     sharedDiameterMm: 30.0,
     notes:
-      'Cam-actuated chronograph workhorse — tall (7.9mm). The 7751 adds a full calendar + moonphase; Sellita SW500 is 7750-compatible (footprint, feet, stem).',
+      'Cam-actuated chronograph workhorse — tall (7.9mm), large 2.0/1.2mm main hand bores. 7751 adds full calendar + moonphase; 7754 adds GMT; Sellita SW500/SW510 are 7750-compatible.',
   },
   {
     id: 'ronda-5xx',
@@ -118,8 +132,8 @@ export const families: MovementFamily[] = [
   },
   {
     id: 'ronda-503x',
-    label: 'Ronda 50xx quartz chronographs (5030.D / 5040.B)',
-    members: ['ronda-5030d'],
+    label: 'Ronda 50xx quartz chronographs (5030.D / 5040.B / 5021.D)',
+    members: ['ronda-5030d', 'ronda-5021-d'],
     sharedHandSizes: null, // hand bores unverified
     sharedDialFeet: null,
     sharedDiameterMm: null,
@@ -148,8 +162,8 @@ export const families: MovementFamily[] = [
   },
   {
     id: 'seagull-st16',
-    label: 'Seagull ST16 budget autos (TY2718 family)',
-    members: ['seagull-st16'],
+    label: 'Seagull ST16 budget autos (ST16 / ST1612)',
+    members: ['seagull-st16', 'seagull-st1612'],
     sharedHandSizes: null,
     sharedDialFeet: null,
     sharedDiameterMm: null,
@@ -198,8 +212,8 @@ export const families: MovementFamily[] = [
   },
   {
     id: 'seiko-6rxx',
-    label: 'Seiko 6R-series (6R15 / 6R35 / 6R64 GMT)',
-    members: ['seiko-6r15', 'seiko-6r35', 'seiko-6r64'],
+    label: 'Seiko 6R-series (6R15 / 6R35 / 6R55 / 6R64 GMT)',
+    members: ['seiko-6r15', 'seiko-6r35', 'seiko-6r55', 'seiko-6r64'],
     sharedHandSizes: { hour: 1.5, minute: 0.9, second: 0.21 },
     sharedDialFeet: null,
     sharedDiameterMm: 27.4,
@@ -288,8 +302,8 @@ export const families: MovementFamily[] = [
   },
   {
     id: 'dixmont-dgxx',
-    label: 'Dixmont Guangzhou (DG2813 / DG5833)',
-    members: ['dixmont-dg2813', 'dixmont-dg5833'],
+    label: 'Dixmont Guangzhou (DG2813 / DG5833 / DG3804)',
+    members: ['dixmont-dg2813', 'dixmont-dg5833', 'dixmont-dg3804'],
     sharedHandSizes: null,
     sharedDialFeet: null,
     sharedDiameterMm: 26.0,
@@ -318,8 +332,8 @@ export const families: MovementFamily[] = [
   },
   {
     id: 'eta-9xx-quartz',
-    label: 'ETA 9-series quartz (955.112)',
-    members: ['eta-955-112'],
+    label: 'ETA 9-series quartz (955.112 / 956.112)',
+    members: ['eta-955-112', 'eta-956-112'],
     sharedHandSizes: null,
     sharedDialFeet: null,
     sharedDiameterMm: null,
@@ -373,6 +387,97 @@ export const families: MovementFamily[] = [
     sharedDiameterMm: null,
     notes:
       'Modern Swiss automatic, ~68h reserve, date, 28,800 vph — popular in enthusiast microbrands.',
+  },
+  {
+    id: 'eta-2000',
+    label: 'ETA 2000-1 (small automatic)',
+    members: ['eta-2000-1'],
+    sharedHandSizes: null,
+    sharedDialFeet: null,
+    sharedDiameterMm: 19.4,
+    notes: 'Small (~19.4mm / 8.75‴) automatic with date — for compact builds.',
+  },
+  {
+    id: 'eta-quartz-chrono',
+    label: 'ETA 251 quartz chronograph (251.471)',
+    members: ['eta-251-471'],
+    sharedHandSizes: null,
+    sharedDialFeet: null,
+    sharedDiameterMm: null,
+    notes: 'High-accuracy (thermocompensated) Swiss quartz chronograph.',
+  },
+  {
+    id: 'eta-80x-quartz',
+    label: 'ETA 80x quartz (805.111)',
+    members: ['eta-805-111'],
+    sharedHandSizes: null,
+    sharedDialFeet: null,
+    sharedDiameterMm: null,
+    notes: 'Basic Swiss 3-hand + date quartz (FlatLine family).',
+  },
+  {
+    id: 'sellita-sw290',
+    label: 'Sellita SW290 chronograph',
+    members: ['sellita-sw290-1'],
+    sharedHandSizes: null,
+    sharedDialFeet: null,
+    sharedDiameterMm: null,
+    notes: 'Sellita automatic chronograph (SW300-based with a chrono module).',
+  },
+  {
+    id: 'sellita-sw1000',
+    label: 'Sellita SW1000 (small automatic)',
+    members: ['sellita-sw1000-1'],
+    sharedHandSizes: null,
+    sharedDialFeet: null,
+    sharedDiameterMm: null,
+    notes: 'Small (~20mm / 9‴) Swiss automatic with date — for compact builds.',
+  },
+  {
+    id: 'seiko-vd-quartz',
+    label: 'Seiko VD quartz chronograph (VD53)',
+    members: ['seiko-vd53'],
+    sharedHandSizes: null,
+    sharedDialFeet: null,
+    sharedDiameterMm: null,
+    notes: 'Seiko/TMI quartz chronograph (VD-series), date.',
+  },
+  {
+    id: 'ronda-mecano',
+    label: 'Ronda Mecano (R150)',
+    members: ['ronda-mecano-r150'],
+    sharedHandSizes: null,
+    sharedDialFeet: null,
+    sharedDiameterMm: null,
+    notes:
+      "Ronda's own Swiss MECHANICAL automatic (Mecano line), date, 28,800 vph.",
+  },
+  {
+    id: 'hangzhou-64xx',
+    label: 'Hangzhou 64xx GMT (6460)',
+    members: ['hangzhou-6460'],
+    sharedHandSizes: null,
+    sharedDialFeet: null,
+    sharedDiameterMm: null,
+    notes: 'Chinese automatic GMT (24-hour) + date.',
+  },
+  {
+    id: 'hangzhou-5xxx',
+    label: 'Hangzhou 5000A (thin automatic)',
+    members: ['hangzhou-5000a'],
+    sharedHandSizes: null,
+    sharedDialFeet: null,
+    sharedDiameterMm: null,
+    notes: 'Thin Chinese automatic (ETA 2892-style), date.',
+  },
+  {
+    id: 'ronda-10xx',
+    label: 'Ronda 10xx quartz (1069)',
+    members: ['ronda-1069'],
+    sharedHandSizes: null,
+    sharedDialFeet: null,
+    sharedDiameterMm: null,
+    notes: 'Slim Swiss 3-hand + date quartz (Powertech family).',
   },
 ];
 

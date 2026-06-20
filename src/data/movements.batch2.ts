@@ -1340,11 +1340,7 @@ export const batch2Movements: Movement[] = [
     casingDiameterMm: null,
     heightMm: 5.52,
     heightWithHandsMm: null,
-    handSizes: {
-      hour: null,
-      minute: null,
-      second: null,
-    },
+    handSizes: { hour: 1.52, minute: 1.0, second: 0.17 },
     dialFeet: null,
     feetlessDialsCommon: false,
     crownPositions: null,
@@ -1370,7 +1366,7 @@ export const batch2Movements: Movement[] = [
     manufactureCountry: 'Japan',
     yearIntroduced: null,
     notes:
-      'HINT CORRECTION: The task hint described the 9132 as a "small-seconds sub-dial automatic." This is WRONG. Four independent sources (Miyota\'s own product page/spec PDF, calibercorner, watch-movements-archive, mastersintime) all confirm the 9132 has a CENTRAL sweeping seconds hand, NOT a small-seconds sub-dial. It is the multifunction variant of the 9100 family with: central hours/minutes/seconds, a 24-hour hand at 6:00, a power reserve indicator at 12:00, and a date window at 3:00 (5 hands total). Because seconds is central, complications use "central-seconds" and handSizes.second = the central-seconds bore (0.17mm). Hand bores from calibercorner: hour 1.52 / minute 1.0 / central second 0.17; the auxiliary subdial hands (24h and power reserve) are listed at ~0.25mm but there is no chronograph, so chronographSweep is null. The base 9100 caliber confirms hour 1.52 / minute 1.0 / second 0.17. Movement diameter Φ30.20mm and height 5.52mm and stem 065-A05 (tap 10) and lift angle 51 degrees are from Miyota\'s official spec PDF. Beat 28,800 vph, 26 jewels, ~40h power reserve, accuracy -10/+30 sec/day, unidirectional ball-bearing rotor, Parashock shock protection, hacking + hand winding. casingDiameterMm left null (no source states a spacer/ring diameter). Pricing: calibercorner cites a $106-$175.99 replacement range; Sofly lists a single unit around $110. feetlessDialsCommon=false (this is not part of the Seiko NH/7S glue-on dial ecosystem). Could not extract hand bore sizes from Miyota\'s official PDF (not listed there); hand sizes rely on calibercorner + 9100 base agreement. Hand bores reported by sources looked inconsistent with this family, so they are left unverified — confirm before buying hands.',
+      'HINT CORRECTION: The task hint described the 9132 as a "small-seconds sub-dial automatic." This is WRONG. Four independent sources (Miyota\'s own product page/spec PDF, calibercorner, watch-movements-archive, mastersintime) all confirm the 9132 has a CENTRAL sweeping seconds hand, NOT a small-seconds sub-dial. It is the multifunction variant of the 9100 family with: central hours/minutes/seconds, a 24-hour hand at 6:00, a power reserve indicator at 12:00, and a date window at 3:00 (5 hands total). Because seconds is central, complications use "central-seconds" and handSizes.second = the central-seconds bore (0.17mm). Hand bores from calibercorner: hour 1.52 / minute 1.0 / central second 0.17; the auxiliary subdial hands (24h and power reserve) are listed at ~0.25mm but there is no chronograph, so chronographSweep is null. The base 9100 caliber confirms hour 1.52 / minute 1.0 / second 0.17. Movement diameter Φ30.20mm and height 5.52mm and stem 065-A05 (tap 10) and lift angle 51 degrees are from Miyota\'s official spec PDF. Beat 28,800 vph, 26 jewels, ~40h power reserve, accuracy -10/+30 sec/day, unidirectional ball-bearing rotor, Parashock shock protection, hacking + hand winding. casingDiameterMm left null (no source states a spacer/ring diameter). Pricing: calibercorner cites a $106-$175.99 replacement range; Sofly lists a single unit around $110. feetlessDialsCommon=false (this is not part of the Seiko NH/7S glue-on dial ecosystem). Could not extract hand bore sizes from Miyota\'s official PDF (not listed there); hand sizes rely on calibercorner + 9100 base agreement.',
     references: [
       {
         label: 'Miyota official 9132 product page',

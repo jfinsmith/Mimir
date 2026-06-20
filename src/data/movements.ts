@@ -1,5 +1,6 @@
 import type { Movement, SourceRef } from '@/types';
 import { batch2Movements } from './movements.batch2';
+import { batch3Movements } from './movements.batch3';
 
 // ─────────────────────────────────────────────────────────────────────────────
 // SEED MOVEMENTS — the full Section-7 set (25 calibers).
@@ -369,7 +370,7 @@ const coreMovements: Movement[] = [
     casingDiameterMm: null,
     heightMm: 3.9,
     heightWithHandsMm: null,
-    handSizes: { hour: 1.5, minute: 0.9, second: 0.25 },
+    handSizes: { hour: 1.52, minute: 1.0, second: 0.17 }, // Caliber Corner: 1.52/1.00/0.17
     dialFeet: null,
     feetlessDialsCommon: false,
     crownPositions: null,
@@ -413,7 +414,7 @@ const coreMovements: Movement[] = [
     casingDiameterMm: null,
     heightMm: 3.9,
     heightWithHandsMm: null,
-    handSizes: { hour: 1.5, minute: 0.9, second: 0.25 },
+    handSizes: { hour: 1.52, minute: 1.0, second: 0.17 }, // Caliber Corner: 1.52/1.00/0.17
     dialFeet: null,
     feetlessDialsCommon: false,
     crownPositions: null,
@@ -684,7 +685,7 @@ const coreMovements: Movement[] = [
     casingDiameterMm: null,
     heightMm: 7.9,
     heightWithHandsMm: null,
-    handSizes: { hour: 1.5, minute: 0.9, second: 0.25, chronographSweep: null }, // chrono sweep bore "verify"
+    handSizes: { hour: 2.0, minute: 1.2, second: 0.18, chronographSweep: 0.25 }, // Caliber Corner: 2.0/1.2 main, 0.25 sweep, 0.18 sub-hands
     dialFeet: null,
     feetlessDialsCommon: false,
     crownPositions: null,
@@ -2585,8 +2586,12 @@ const coreMovements: Movement[] = [
   },
 ];
 
-/** Full catalog = hand-authored core + the sourced round-2 batch. */
-export const movements: Movement[] = [...coreMovements, ...batch2Movements];
+/** Full catalog = hand-authored core + the sourced round-2 & round-3 batches. */
+export const movements: Movement[] = [
+  ...coreMovements,
+  ...batch2Movements,
+  ...batch3Movements,
+];
 
 /** id → movement lookup. */
 export const movementsById: Record<string, Movement> = Object.fromEntries(
