@@ -126,6 +126,15 @@ export function MovementDetail() {
         </div>
       </header>
 
+      <section>
+        <h2 className="mb-1 text-lg font-semibold">Where to buy</h2>
+        <p className="mb-3 text-sm text-ink-muted">
+          Precise searches built from this caliber and its aliases. Cross-check
+          the spec sheet against the listing before buying.
+        </p>
+        <VendorLinks item={m} />
+      </section>
+
       {m.dataConfidence !== 'high' && (
         <p className="rounded-card border border-fit-mod/40 bg-fit-mod/10 px-4 py-2 text-sm text-fit-mod">
           ⚠ This record is <strong>{m.dataConfidence}</strong> confidence — some
@@ -154,15 +163,6 @@ export function MovementDetail() {
           </p>
         </section>
       )}
-
-      <section>
-        <h2 className="mb-1 text-lg font-semibold">Where to buy</h2>
-        <p className="mb-3 text-sm text-ink-muted">
-          Precise searches built from this caliber and its aliases. Cross-check
-          the spec sheet against the listing before buying.
-        </p>
-        <VendorLinks item={m} />
-      </section>
 
       <section>
         <h2 className="mb-2 text-lg font-semibold">References</h2>
