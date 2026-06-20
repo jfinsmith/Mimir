@@ -1,0 +1,14 @@
+{
+  "files": [],
+  "references": [
+    { "path": "./tsconfig.app.json" },
+    { "path": "./tsconfig.node.json" }
+  ],
+  "//": "baseUrl/paths here are NOT used by `tsc -b` (files is empty) — they exist so `tsx` (npm run validate:data / check:images) resolves the @/* alias.",
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["src/*"]
+    }
+  }
+}

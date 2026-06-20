@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MIMIR</title>
+    <!--
+      ───────────────────────────────────────────────────────────────────────
+      GitHub Pages SPA fallback (rafgraph/spa-github-pages technique).
+      GH Pages has no server-side routing, so a deep link like
+      /mimir/movement/seiko-nh35 would 404 on refresh. GH Pages serves THIS
+      file for any unknown path; we encode the path into a query string and
+      bounce to the app root, where index.html decodes it before the router runs.
+
+      pathSegmentsToKeep:
+        • Project Pages (served from /REPO_NAME/) → 1  (keep the repo segment)
+        • Custom domain at root (served from /)   → 0
+      Keep this in agreement with BASE_PATH in vite.config.ts.
+      ───────────────────────────────────────────────────────────────────────
+    -->
+    <script type="text/javascript">
+      var pathSegmentsToKeep = 1;
+      var l = window.location;
+      l.replace(
+        l.protocol +
+          '//' +
+          l.hostname +
+          (l.port ? ':' + l.port : '') +
+          l.pathname
+            .split('/')
+            .slice(0, 1 + pathSegmentsToKeep)
+            .join('/') +
+          '/?/' +
+          l.pathname
+            .slice(1)
+            .split('/')
+            .slice(pathSegmentsToKeep)
+            .join('/')
+            .replace(/&/g, '~and~') +
+          (l.search ? '&' + l.search.slice(1).replace(/&/g, '~and~') : '') +
+          l.hash,
+      );
+    </script>
+  </head>
+  <body></body>
+</html>

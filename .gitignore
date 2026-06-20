@@ -1,0 +1,26 @@
+# Dependencies
+node_modules
+
+# Build output
+dist
+dist-ssr
+
+# Test / coverage
+coverage
+
+# TS incremental build info
+*.tsbuildinfo
+node_modules/.tmp
+
+# Editor / OS
+.DS_Store
+.idea
+.vscode/*
+!.vscode/extensions.json
+*.local
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*

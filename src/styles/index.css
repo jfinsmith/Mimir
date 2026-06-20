@@ -1,0 +1,43 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ─────────────────────────────────────────────────────────────────────────
+   DESIGN TOKENS — single source of truth for the theme.
+   Colors are stored as space-separated RGB channels so Tailwind's
+   `<alpha-value>` modifier works (e.g. `bg-brand/50`). Re-skin here.
+   ───────────────────────────────────────────────────────────────────────── */
+:root {
+  --color-bg: 17 19 24; /* near-black slate */
+  --color-surface: 25 28 36;
+  --color-surface-2: 33 37 47;
+  --color-border: 51 57 71;
+  --color-ink: 232 235 240;
+  --color-ink-muted: 150 158 172;
+  --color-brand: 201 162 39; /* brushed brass / gold — horology */
+  --color-brand-ink: 17 19 24;
+
+  /* Fitment status hues (keep in lockstep with FitStatus in lib/fitment.ts) */
+  --color-fit-direct: 52 168 110; /* green   */
+  --color-fit-spacer: 79 140 220; /* blue    */
+  --color-fit-mod: 214 158 46; /* amber   */
+  --color-fit-check: 160 120 210; /* violet  */
+  --color-fit-incompatible: 214 78 78; /* red     */
+  --color-fit-unknown: 120 128 140; /* gray    */
+
+  --font-sans: 'Inter var', 'Inter';
+  --font-mono: 'JetBrains Mono', 'SFMono-Regular';
+  --radius-card: 0.75rem;
+
+  color-scheme: dark;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  @apply bg-bg text-ink font-sans antialiased;
+}
