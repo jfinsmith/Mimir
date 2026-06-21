@@ -1,6 +1,7 @@
 import { Suspense } from 'react';
 import { Link, NavLink, Outlet } from 'react-router-dom';
 import { RegionSelect } from '@/components/RegionSelect';
+import { ScrollToTop } from '@/components/ScrollToTop';
 
 function navClass({ isActive }: { isActive: boolean }): string {
   return [
@@ -22,6 +23,7 @@ const NAV = [
 export function App() {
   return (
     <div className="flex min-h-full flex-col">
+      <ScrollToTop />
       <a
         href="#main"
         className="sr-only focus:not-sr-only focus:absolute focus:left-2 focus:top-2 focus:z-50 focus:rounded focus:bg-brand focus:px-3 focus:py-2 focus:text-brand-ink"
