@@ -14,6 +14,7 @@ const NAV = [
   { to: '/parts', label: 'Parts', end: false },
   { to: '/build', label: 'Build', end: false },
   { to: '/education', label: 'Education', end: false },
+  { to: '/education/brands', label: 'Brands', end: false },
   { to: '/learn', label: 'Learn', end: false },
   { to: '/about', label: 'About', end: false },
 ];

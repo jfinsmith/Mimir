@@ -43,6 +43,30 @@ export function Education() {
         </p>
       </header>
 
+      <section>
+        <h2 className="text-lg font-semibold">Brands</h2>
+        <p className="mb-3 max-w-2xl text-sm text-ink-muted">
+          The big houses and the rising independents — each with a positioning
+          profile (cost, value, resale, heritage and more) and the watches
+          they’re known for.
+        </p>
+        <Link
+          to="/education/brands"
+          className="flex items-center justify-between gap-3 rounded-card border border-border bg-surface p-4 transition-colors hover:border-brand/50"
+        >
+          <div>
+            <h3 className="text-sm font-semibold">Brand guide</h3>
+            <p className="mt-0.5 text-xs text-ink-muted">
+              {eduBrands.length} brands — 50 of the biggest names plus 10
+              up-and-coming.
+            </p>
+          </div>
+          <span aria-hidden className="text-2xl">
+            🏷️
+          </span>
+        </Link>
+      </section>
+
       {EDU_CATEGORIES.map((cat) => {
         const arts = eduArticles.filter((a) => a.category === cat.id);
         if (arts.length === 0) return null;
@@ -73,30 +97,6 @@ export function Education() {
           </section>
         );
       })}
-
-      <section>
-        <h2 className="text-lg font-semibold">Brands</h2>
-        <p className="mb-3 max-w-2xl text-sm text-ink-muted">
-          The big houses and the rising independents — each with a positioning
-          profile (cost, value, resale, heritage and more) and the watches
-          they’re known for.
-        </p>
-        <Link
-          to="/education/brands"
-          className="flex items-center justify-between gap-3 rounded-card border border-border bg-surface p-4 transition-colors hover:border-brand/50"
-        >
-          <div>
-            <h3 className="text-sm font-semibold">Brand guide</h3>
-            <p className="mt-0.5 text-xs text-ink-muted">
-              {eduBrands.length} brands — 50 of the biggest names plus 10
-              up-and-coming.
-            </p>
-          </div>
-          <span aria-hidden className="text-2xl">
-            🏷️
-          </span>
-        </Link>
-      </section>
 
       <p className="text-sm text-ink-muted">
         Looking for the glossary and how MIMIR is built and sourced? See{' '}
