@@ -6,3 +6,4 @@ export { families, familiesById } from './families';
 export { glossary } from './glossary';
 export type { GlossaryTerm } from './glossary';
 export { eduArticles, eduBySlug } from './education';
+export { eduBrands, eduBrandsBySlug } from './brands';

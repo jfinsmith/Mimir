@@ -109,7 +109,10 @@ chronograph, GMT, racing, skeleton), **movement types** (automatic, manual,
 quartz, mecaquartz, solar, kinetic) and **origins** (Swiss, German, Japanese,
 American, Chinese, Russian) — each with original labeled diagrams, history,
 prices, iconic examples, and the matching movements/parts from the live catalog.
-The **Learn** page has the glossary and explains how the catalog is built.
+It also has a **brand guide**: 60 profiles (50 major houses + 10 rising
+independents) with sliding positioning scales (cost, value, resale,
+depreciation, popularity, heritage, finishing, innovation). The **Learn** page
+has the glossary and explains how the catalog is built.
 
 ---
 

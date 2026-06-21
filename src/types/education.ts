@@ -29,3 +29,45 @@ export interface EduArticle {
   goodToKnow: string[];
   sources: string[];
 }
+
+// ── Brands ───────────────────────────────────────────────────────────────────
+
+export type BrandStatus = 'established' | 'up-and-coming';
+
+/** The positioning dimensions plotted on the brand's sliding scales. */
+export type BrandDimension =
+  | 'cost'
+  | 'value'
+  | 'resale'
+  | 'depreciation'
+  | 'popularity'
+  | 'heritage'
+  | 'finishing'
+  | 'innovation';
+
+/** A 1–10 enthusiast-consensus rating with a short justification. */
+export interface BrandScaleValue {
+  value: number;
+  note: string;
+}
+
+export interface EduBrand {
+  slug: string;
+  name: string;
+  country: string;
+  founded: number | null;
+  status: BrandStatus;
+  /** Owner / holding group, or "Independent". */
+  parentGroup: string | null;
+  tagline: string;
+  history: string[];
+  positioning: string;
+  priceBand: { entry: string; flagship: string };
+  scales: Record<BrandDimension, BrandScaleValue>;
+  iconicModels: EduExample[];
+  signature: string[];
+  goodToKnow: string[];
+  /** In-house vs sourced movements. */
+  movementSourcing: string;
+  sources: string[];
+}

@@ -2,8 +2,10 @@
 // links each article back to live movements/parts. Pure (catalog injectable).
 
 import type {
+  BrandDimension,
   Complication,
   EduArticle,
+  EduBrand,
   EduCategory,
   Movement,
   Part,
@@ -115,4 +117,51 @@ export function eduMatches(
       )
     : [];
   return { movements: mv, parts: pt };
+}
+
+// ── Brands ───────────────────────────────────────────────────────────────────
+
+/** The sliding-scale dimensions on a brand page (left → right semantics). */
+export const BRAND_DIMENSIONS: {
+  id: BrandDimension;
+  label: string;
+  left: string;
+  right: string;
+}[] = [
+  {
+    id: 'cost',
+    label: 'Price level',
+    left: 'Affordable',
+    right: 'Ultra-luxury',
+  },
+  { id: 'value', label: 'Value for money', left: 'Poor', right: 'Exceptional' },
+  { id: 'resale', label: 'Resale value', left: 'Weak', right: 'Strong' },
+  {
+    id: 'depreciation',
+    label: 'Depreciation',
+    left: 'Holds value',
+    right: 'Drops fast',
+  },
+  { id: 'popularity', label: 'Popularity', left: 'Niche', right: 'Iconic' },
+  { id: 'heritage', label: 'Heritage', left: 'Young', right: 'Storied' },
+  {
+    id: 'finishing',
+    label: 'Finishing',
+    left: 'Industrial',
+    right: 'Exquisite',
+  },
+  {
+    id: 'innovation',
+    label: 'Innovation',
+    left: 'Traditional',
+    right: 'Cutting-edge',
+  },
+];
+
+/** Movements in the catalog made by this brand (sparse — only catalogued makers). */
+export function brandMovements(brand: EduBrand, src?: Movement[]): Movement[] {
+  const movements = src ?? ALL_MOVEMENTS;
+  const base = (brand.name.split('(')[0] ?? '').trim().toLowerCase();
+  if (base.length < 3) return [];
+  return movements.filter((m) => m.brand.toLowerCase().includes(base));
 }
