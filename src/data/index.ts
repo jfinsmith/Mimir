@@ -5,3 +5,4 @@ export { parts, partsById } from './parts';
 export { families, familiesById } from './families';
 export { glossary } from './glossary';
 export type { GlossaryTerm } from './glossary';
+export { eduArticles, eduBySlug } from './education';

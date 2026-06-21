@@ -23,6 +23,12 @@ const BuildPlanner = lazy(() =>
 const Learn = lazy(() =>
   import('./pages/Learn').then((m) => ({ default: m.Learn })),
 );
+const Education = lazy(() =>
+  import('./pages/Education').then((m) => ({ default: m.Education })),
+);
+const EduArticle = lazy(() =>
+  import('./pages/EduArticle').then((m) => ({ default: m.EduArticle })),
+);
 const About = lazy(() =>
   import('./pages/About').then((m) => ({ default: m.About })),
 );
@@ -42,6 +48,8 @@ export const router = createBrowserRouter(
         { path: 'compare', element: <Compare /> },
         { path: 'parts', element: <Parts /> },
         { path: 'build', element: <BuildPlanner /> },
+        { path: 'education', element: <Education /> },
+        { path: 'education/:slug', element: <EduArticle /> },
         { path: 'learn', element: <Learn /> },
         { path: 'about', element: <About /> },
         { path: '*', element: <NotFound /> },
