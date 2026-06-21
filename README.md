@@ -1,6 +1,6 @@
 # MIMIR — Watch Movement Catalog & Fitment Engine
 
-**▶ Live site: https://jfinsmith.github.io/Mimir/**
+**▶ Live site: https://mimirbuilds.com**
 
 [![Deploy to GitHub Pages](https://github.com/jfinsmith/Mimir/actions/workflows/deploy.yml/badge.svg)](https://github.com/jfinsmith/Mimir/actions/workflows/deploy.yml)
 
@@ -258,16 +258,19 @@ The Pages base path is the **#1 thing that breaks** on a hosting/domain change.
 It's one commented constant in [`vite.config.ts`](vite.config.ts):
 
 ```ts
-const BASE_PATH = '/Mimir/'; // ← change ONLY this line (must match the repo name's case)
+const BASE_PATH = '/'; // ← change ONLY this line
 ```
 
+- **Custom domain at the root** (current — `mimirbuilds.com`) → `'/'`, with
+  `pathSegmentsToKeep = 0` in [`public/404.html`](public/404.html) (the SPA
+  deep-link shim) and the domain in [`public/CNAME`](public/CNAME).
 - **Project Pages** (`https://USER.github.io/REPO/`) → `'/REPO/'`
-  (case-sensitive — must match the repo name exactly).
-- **Custom domain at the root** → `'/'`, and also set `pathSegmentsToKeep = 0`
-  in [`public/404.html`](public/404.html) (the SPA deep-link shim).
+  (case-sensitive — must match the repo name exactly) and `pathSegmentsToKeep = 1`.
 
 The router reads the same value via `import.meta.env.BASE_URL`, so routing stays
-in sync automatically.
+in sync automatically. The custom domain is also set in the repo's Pages settings
+(Settings → Pages → Custom domain); the `public/CNAME` file keeps it from being
+dropped on redeploys.
 
 ## Project structure
 
