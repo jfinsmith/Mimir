@@ -101,10 +101,15 @@ whole **shopping list**. Use the **region toggle** in the header (US/UK/EU/AU) t
 target your marketplaces. MIMIR holds no inventory and earns nothing from these
 links.
 
-### 6. Compare & learn
+### 6. Compare, learn & explore
 Add movements to the **compare** tray for a side-by-side table (fitment rows
-first, differences highlighted, shareable URL). The **Learn** page has a glossary
-and explains how the catalog is built and how to read the placeholders.
+first, differences highlighted, shareable URL). The **Education** section is an
+illustrated encyclopedia — watch **styles** (diver, dress, pilot, field,
+chronograph, GMT, racing, skeleton), **movement types** (automatic, manual,
+quartz, mecaquartz, solar, kinetic) and **origins** (Swiss, German, Japanese,
+American, Chinese, Russian) — each with original labeled diagrams, history,
+prices, iconic examples, and the matching movements/parts from the live catalog.
+The **Learn** page has the glossary and explains how the catalog is built.
 
 ---
 
